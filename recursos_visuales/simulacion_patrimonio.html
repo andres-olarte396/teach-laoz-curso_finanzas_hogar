@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Patrimonio Neto</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 20px auto; background: #f0f2f5; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; text-align: center; }
+        .group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #34495e; }
+        input { width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 5px; box-sizing: border-box; }
+        .result { margin-top: 20px; padding: 15px; text-align: center; font-size: 1.5em; font-weight: bold; color: white; border-radius: 5px; }
+        .positive { background-color: #27ae60; }
+        .negative { background-color: #c0392b; }
+        button { width: 100%; padding: 12px; background: #2980b9; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; }
+        button:hover { background: #3498db; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>💰 Mi Patrimonio Neto</h2>
+        
+        <div class="group">
+            <label>ACTIVOS (Lo que tienes)</label>
+            <input type="number" id="activos" placeholder="Ej: Cuenta Banco, Valor Casa" value="0">
+            <small>Suma todo lo que podrías vender por dinero hoy.</small>
+        </div>
+
+        <div class="group">
+            <label>PASIVOS (Lo que debes)</label>
+            <input type="number" id="pasivos" placeholder="Ej: Hipoteca, Tarjetas" value="0">
+            <small>Suma todo lo que debes a otros.</small>
+        </div>
+
+        <button onclick="calcular()">Calcular Realidad</button>
+
+        <div id="resultado" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        function calcular() {
+            const activos = parseFloat(document.getElementById('activos').value) || 0;
+            const pasivos = parseFloat(document.getElementById('pasivos').value) || 0;
+            const patrimonio = activos - pasivos;
+            
+            const div = document.getElementById('resultado');
+            div.style.display = 'block';
+            div.innerText = `$${patrimonio.toLocaleString()}`;
+            
+            if (patrimonio >= 0) {
+                div.className = 'result positive';
+                div.innerHTML += '<br><span style="font-size:0.6em">¡Estás en verde! Sigue construyendo.</span>';
+            } else {
+                div.className = 'result negative';
+                div.innerHTML += '<br><span style="font-size:0.6em">Zona roja. Tienes trabajo que hacer.</span>';
+            }
+        }
+    </script>
+</body>
+</html>

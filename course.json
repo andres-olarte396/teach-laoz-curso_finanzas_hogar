@@ -1,0 +1,81 @@
+{
+  "description": "Curso práctico para gestionar las finanzas personales y familiares, desde el ahorro hasta la inversión.",
+  "title": "Inteligencia Financiera y Finanzas del Hogar",
+  "id": "inteligencia-financiera-hogar",
+  "modules": [
+    {
+      "titulo": "Fundamentos del Hogar",
+      "modulo_id": 1,
+      "temas": [
+        {
+          "titulo": "Presupuesto Familiar",
+          "subtemas": [
+            {
+              "titulo": "Creación de un Presupuesto",
+              "subtema_id": "1.1.1"
+            }
+          ],
+          "tema_id": "1.1"
+        },
+        {
+          "titulo": "Control de Gastos",
+          "subtemas": [
+            {
+              "titulo": "Técnicas de Control de Gastos",
+              "subtema_id": "1.2.1"
+            }
+          ],
+          "tema_id": "1.2"
+        }
+      ]
+    },
+    {
+      "titulo": "Ahorro e Inversión",
+      "modulo_id": 2,
+      "temas": [
+        {
+          "titulo": "Estrategias de Ahorro",
+          "subtemas": [
+            {
+              "titulo": "Métodos de Ahorro Efectivo",
+              "subtema_id": "2.1.1"
+            }
+          ],
+          "tema_id": "2.1"
+        }
+      ]
+    },
+    {
+      "titulo": "Gestión de Deudas",
+      "modulo_id": 3,
+      "temas": [
+        {
+          "titulo": "Eliminación de Deudas",
+          "subtemas": [
+            {
+              "titulo": "Estrategias para Salir de Deudas",
+              "subtema_id": "3.1.1"
+            }
+          ],
+          "tema_id": "3.1"
+        }
+      ]
+    },
+    {
+      "titulo": "Planificación a Largo Plazo",
+      "modulo_id": 4,
+      "temas": [
+        {
+          "titulo": "Metas Financieras",
+          "subtemas": [
+            {
+              "titulo": "Definición y Alcance de Metas",
+              "subtema_id": "4.1.1"
+            }
+          ],
+          "tema_id": "4.1"
+        }
+      ]
+    }
+  ]
+}

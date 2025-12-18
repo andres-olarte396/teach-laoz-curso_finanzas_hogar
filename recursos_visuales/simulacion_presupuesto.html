@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Distribuidor 50/30/20</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 20px auto; background: #eef2f3; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { color: #2c3e50; text-align: center; }
+        input { width: 100%; padding: 15px; font-size: 1.2em; border: 2px solid #ddd; border-radius: 8px; text-align: center; margin-bottom: 20px; }
+        .buckets { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
+        .bucket { flex: 1; padding: 15px; border-radius: 8px; text-align: center; color: white; }
+        .needs { background-color: #e67e22; }
+        .wants { background-color: #9b59b6; }
+        .future { background-color: #27ae60; }
+        .value { font-size: 1.5em; font-weight: bold; display: block; margin-top: 10px; }
+        .label { text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>⚖️ Tu Distribución Ideal</h2>
+        <p style="text-align:center; color:#7f8c8d;">Ingresa tu Sueldo Neto Mensual:</p>
+        
+        <input type="number" id="ingreso" placeholder="$0" oninput="distribuir()">
+
+        <div class="buckets">
+            <div class="bucket needs">
+                <span class="label">Necesidades (50%)</span>
+                <span class="value" id="val50">$0</span>
+            </div>
+            <div class="bucket wants">
+                <span class="label">Deseos (30%)</span>
+                <span class="value" id="val30">$0</span>
+            </div>
+            <div class="bucket future">
+                <span class="label">Futuro (20%)</span>
+                <span class="value" id="val20">$0</span>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top:20px; font-size:0.9em; color:#95a5a6;">*Si tus gastos fijos superan el cuadro naranja, debes reducir el morado.</p>
+    </div>
+
+    <script>
+        function distribuir() {
+            const ingreso = parseFloat(document.getElementById('ingreso').value) || 0;
+            
+            document.getElementById('val50').innerText = '$' + (ingreso * 0.50).toFixed(0);
+            document.getElementById('val30').innerText = '$' + (ingreso * 0.30).toFixed(0);
+            document.getElementById('val20').innerText = '$' + (ingreso * 0.20).toFixed(0);
+        }
+    </script>
+</body>
+</html>
