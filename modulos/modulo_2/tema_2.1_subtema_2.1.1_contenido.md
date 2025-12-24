@@ -1,4 +1,4 @@
-# TEMA 2.1.1: LA REGLA 50/30/20 (TU SISTEMA OPERATIVO)
+# TEMA 2.1.1. LA REGLA 50/30/20 (TU SISTEMA OPERATIVO)
 
 **Tiempo estimado**: 45 minutos
 **Nivel**: Intermedio

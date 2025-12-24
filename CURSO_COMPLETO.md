@@ -1,4 +1,4 @@
-# TEMA 1.1.1: ACTIVOS Y PASIVOS REALES (EL INVENTARIO)
+# TEMA 1.1.1. ACTIVOS Y PASIVOS REALES (EL INVENTARIO)
 
 **Tiempo estimado**: 45 minutos
 **Nivel**: Principiante
@@ -62,7 +62,7 @@ $$ Patrimonio = (Total Columna A) - (Total Columna B) $$
 
 ## Errores frecuentes
 
-### Error 1: Inflar el valor de las cosas
+### Error 1. Inflar el valor de las cosas
 
 *"Mi colección de cómics vale $5,000"*.
 Realidad: Si intentas venderla hoy para comer, te darán $500.
@@ -82,7 +82,7 @@ Si lo escondes del inventario, estás saboteando tu propio mapa.
 **Regla de Oro**: Un Activo Real trabaja por ti. Un Pasivo Real trabaja contra ti. El objetivo del juego es coleccionar empleados (activos) y despedir parásitos (pasivos).
 
 **Siguiente paso**: Ahora que sabemos el *Stock* (Inventario), vamos a analizar el *Flujo* (Ingresos vs Gastos).
-# TEMA 1.2.1: FLUJO DE CAJA (INGRESOS VS GASTOS)
+# TEMA 1.2.1. FLUJO DE CAJA (INGRESOS VS GASTOS)
 
 **Tiempo estimado**: 45 minutos
 **Nivel**: Principiante
@@ -156,7 +156,7 @@ Si logras anotar cada centavo durante un mes, descubrirás que tus "Gastos Vario
 
 ## Errores frecuentes
 
-### Error 1: Presupuestar sobre el Bruto
+### Error 1. Presupuestar sobre el Bruto
 
 Hacer planes con dinero que el gobierno ya se llevó.
 
@@ -174,7 +174,7 @@ Si no guardas 1/12 cada mes, esos gastos te destruirán cuando lleguen.
 **Regla de Oro**: Los ricos se enfocan en aumentar sus ingresos; los sabios se enfocan primero en tapar las fugas (Gastos Hormiga/Vampiro).
 
 **Siguiente paso**: Ahora que tenemos el diagnóstico (Patrimonio + Flujo), en el Módulo 2 construiremos la solución: El Presupuesto 50/30/20.
-# TEMA 2.1.1: LA REGLA 50/30/20 (TU SISTEMA OPERATIVO)
+# TEMA 2.1.1. LA REGLA 50/30/20 (TU SISTEMA OPERATIVO)
 
 **Tiempo estimado**: 45 minutos
 **Nivel**: Intermedio
@@ -259,7 +259,7 @@ Este dinero NO se toca hoy. Es para tu "Yo del Futuro".
 **Regla de Oro**: Si logras vivir con el 80% de lo que ganas (50+30) y guardas el 20%, el éxito financiero es matemático e inevitable.
 
 **Siguiente paso**: Ahora que tenemos la teoría, vamos a aplicarlo a tu realidad con ejercicios prácticos.
-# TEMA 3.1.1: BOLA DE NIEVE vs AVALANCHA (ESTRATEGIAS DE SALIDA)
+# TEMA 3.1.1. BOLA DE NIEVE vs AVALANCHA (ESTRATEGIAS DE SALIDA)
 
 **Tiempo estimado**: 60 minutos
 **Nivel**: Intermedio
@@ -334,7 +334,7 @@ Por eso, para el 90% de la gente, recomendamos **Bola de Nieve**.
 **Regla de Oro**: Pagar el mínimo te mantiene esclavo. Pagar extra (Bola de Nieve) te hace libre.
 
 **Siguiente paso**: Vamos a simular tu plan de pagos en los ejercicios.
-# TEMA 4.1.1: EL FONDO DE EMERGENCIA (TU BLINDAJE)
+# TEMA 4.1.1. EL FONDO DE EMERGENCIA (TU BLINDAJE)
 
 **Tiempo estimado**: 45 minutos
 **Nivel**: Intermedio

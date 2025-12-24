@@ -1,4 +1,4 @@
-# TEMA 1.1.1: ACTIVOS Y PASIVOS REALES (EL INVENTARIO)
+# TEMA 1.1.1. ACTIVOS Y PASIVOS REALES (EL INVENTARIO)
 
 **Tiempo estimado**: 45 minutos
 **Nivel**: Principiante
@@ -62,7 +62,7 @@ $$ Patrimonio = (Total Columna A) - (Total Columna B) $$
 
 ## Errores frecuentes
 
-### Error 1: Inflar el valor de las cosas
+### Error 1. Inflar el valor de las cosas
 
 *"Mi colección de cómics vale $5,000"*.
 Realidad: Si intentas venderla hoy para comer, te darán $500.

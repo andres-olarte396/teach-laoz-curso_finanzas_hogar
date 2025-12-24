@@ -6,22 +6,22 @@ Se ha completado la generación integral del curso "Finanzas en el Hogar: Requer
 
 ## Estructura del Curso Generado
 
-### Módulo 1: La Radiografía Financiera (Diagnóstico)
+### Módulo 1. La Radiografía Financiera (Diagnóstico)
 
-* **Tema 1.1: Inventario Patrimonial**: Diferenciación entre Activos y Pasivos reales.
+* **Tema 1.1. Inventario Patrimonial**: Diferenciación entre Activos y Pasivos reales.
 * **Tema 1.2: Flujo de Caja**: Identificación de Gastos Hormiga y Vampiro.
 
 ### Módulo 2: Control y Presupuesto (Solución)
 
-* **Tema 2.1: Regla 50/30/20**: El sistema operativo de distribución (Necesidades, Deseos, Futuro).
+* **Tema 2.1. Regla 50/30/20**: El sistema operativo de distribución (Necesidades, Deseos, Futuro).
 
 ### Módulo 3: Hábitos y Deuda (Limpieza)
 
-* **Tema 3.1: Bola de Nieve**: Estrategia psicológica para eliminación de deudas.
+* **Tema 3.1. Bola de Nieve**: Estrategia psicológica para eliminación de deudas.
 
 ### Módulo 4: Futuro y Seguridad (Blindaje)
 
-* **Tema 4.1: Fondo de Emergencia**: Creación de un escudo financiero de 3 a 6 meses.
+* **Tema 4.1. Fondo de Emergencia**: Creación de un escudo financiero de 3 a 6 meses.
 
 ---
 

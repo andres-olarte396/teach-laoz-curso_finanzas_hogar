@@ -1,4 +1,4 @@
-# TEMA 4.1.1: EL FONDO DE EMERGENCIA (TU BLINDAJE)
+# TEMA 4.1.1. EL FONDO DE EMERGENCIA (TU BLINDAJE)
 
 **Tiempo estimado**: 45 minutos
 **Nivel**: Intermedio

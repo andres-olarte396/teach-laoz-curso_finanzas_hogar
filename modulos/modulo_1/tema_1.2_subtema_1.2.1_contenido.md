@@ -1,4 +1,4 @@
-# TEMA 1.2.1: FLUJO DE CAJA (INGRESOS VS GASTOS)
+# TEMA 1.2.1. FLUJO DE CAJA (INGRESOS VS GASTOS)
 
 **Tiempo estimado**: 45 minutos
 **Nivel**: Principiante
@@ -72,7 +72,7 @@ Si logras anotar cada centavo durante un mes, descubrirás que tus "Gastos Vario
 
 ## Errores frecuentes
 
-### Error 1: Presupuestar sobre el Bruto
+### Error 1. Presupuestar sobre el Bruto
 
 Hacer planes con dinero que el gobierno ya se llevó.
 

@@ -1,1260 +1,2234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      /* Fuentes */
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400&display=swap");
 
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <style>/* Fuentes */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400&display=swap');
+      :root {
+        --primary: #2563eb;
+        --secondary: #1e293b;
+        --text: #334155;
+        --light-bg: #f8fafc;
+        --border: #e2e8f0;
+      }
 
-:root {
-    --primary: #2563eb;
-    --secondary: #1e293b;
-    --text: #334155;
-    --light-bg: #f8fafc;
-    --border: #e2e8f0;
-}
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        line-height: 1.6;
+        font-size: 11pt; /* Ajuste para impresión */
+      }
 
-body {
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    line-height: 1.6;
-    font-size: 11pt; /* Ajuste para impresión */
-}
+      /* Portada */
+      .cover-page {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        page-break-after: always;
+      }
+      .logo {
+        width: 120px;
+        margin-bottom: 2rem;
+      }
+      .main-title {
+        font-size: 3rem;
+        color: var(--primary);
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+      }
+      .subtitle {
+        font-size: 1.5rem;
+        color: var(--secondary);
+        font-weight: 300;
+        margin-bottom: 3rem;
+      }
+      .meta {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        margin-top: auto;
+        padding-bottom: 2rem;
+      }
 
-/* Portada */
-.cover-page {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    page-break-after: always;
-}
-.logo { width: 120px; margin-bottom: 2rem; }
-.main-title { font-size: 3rem; color: var(--primary); line-height: 1.2; margin-bottom: 0.5rem; }
-.subtitle { font-size: 1.5rem; color: var(--secondary); font-weight: 300; margin-bottom: 3rem; }
-.meta { color: #94a3b8; font-size: 0.9rem; margin-top: auto; padding-bottom: 2rem; }
+      /* TOC */
+      .toc-container {
+        page-break-after: always;
+      }
+      .toc-list {
+        list-style: none;
+        padding: 0;
+      }
+      .toc-list li {
+        margin-bottom: 0.25rem;
+      } /* Más compacto */
+      .toc-list a {
+        text-decoration: none;
+        color: var(--secondary);
+        display: flex;
+        justify-content: space-between; /* Para separar texto y número */
+        width: 100%;
+        font-size: 0.9rem; /* Letra más pequeña */
+        border-bottom: 1px dotted #e2e8f0; /* Leader dots visuales simples */
+      }
 
-/* TOC */
-.toc-container { page-break-after: always; }
-.toc-list { list-style: none; padding: 0; }
-.toc-list li { margin-bottom: 0.25rem; } /* Más compacto */
-.toc-list a { 
-    text-decoration: none; 
-    color: var(--secondary); 
-    display: flex; 
-    justify-content: space-between; /* Para separar texto y número */
-    width: 100%; 
-    font-size: 0.9rem; /* Letra más pequeña */
-    border-bottom: 1px dotted #e2e8f0; /* Leader dots visuales simples */
-}
+      /* Paginación en TOC (Requiere Paged.js) */
+      .toc-list a::after {
+        content: target-counter(attr(href), page);
+        font-weight: bold;
+        color: var(--primary);
+      }
 
-/* Paginación en TOC (Requiere Paged.js) */
-.toc-list a::after {
-    content: target-counter(attr(href), page);
-    font-weight: bold;
-    color: var(--primary);
-}
+      .toc-item-1 > a {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        color: var(--primary);
+      }
+      .toc-item-2 > a {
+        margin-left: 1.5rem;
+        font-size: 0.85rem;
+        color: #64748b;
+      }
 
-.toc-item-1 > a { font-weight: 700; font-size: 1rem; margin-top: 0.5rem; color: var(--primary); }
-.toc-item-2 > a { margin-left: 1.5rem; font-size: 0.85rem; color: #64748b; }
+      /* Contenido */
+      .module-section {
+        background: var(--primary);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+        page-break-before: always;
+      }
+      .module-title {
+        color: white !important;
+        border: none;
+        margin: 0;
+      }
 
-/* Contenido */
-.module-section { 
-    background: var(--primary); 
-    color: white; 
-    padding: 2rem; 
-    border-radius: 8px; 
-    margin: 2rem 0; 
-    page-break-before: always; 
-}
-.module-title { color: white !important; border: none; margin: 0; }
+      h1 {
+        color: var(--primary);
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 0.3rem;
+        margin-top: 2rem;
+      }
+      h2 {
+        color: var(--secondary);
+        margin-top: 1.5rem;
+      }
+      h3 {
+        color: #475569;
+        font-size: 1.1rem;
+      }
 
-h1 { color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 0.3rem; margin-top: 2rem; }
-h2 { color: var(--secondary); margin-top: 1.5rem; }
-h3 { color: #475569; font-size: 1.1rem; }
+      /* Listas y Checklists */
+      ul.contains-task-list {
+        list-style: none;
+        padding-left: 0;
+      }
+      li.task-list-item {
+        margin-bottom: 0.5rem;
+        background: #f1f5f9;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+      }
+      input[type="checkbox"] {
+        margin-right: 10px;
+        transform: scale(1.2);
+      }
 
-/* Listas y Checklists */
-ul.contains-task-list { list-style: none; padding-left: 0; }
-li.task-list-item { 
-    margin-bottom: 0.5rem; 
-    background: #f1f5f9; 
-    padding: 0.5rem 1rem; 
-    border-radius: 6px; 
-    display: flex; 
-    align-items: center; 
-}
-input[type="checkbox"] { margin-right: 10px; transform: scale(1.2); }
+      /* Solucionario */
+      .solucionario-section {
+        page-break-before: always;
+        background: #fffbeb;
+        padding: 2rem;
+        border-radius: 8px;
+      }
+      .solution-block {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #fae8b0;
+        padding-bottom: 1rem;
+      }
+      .solution-content {
+        font-size: 0.95rem;
+        color: #78350f;
+      }
 
-/* Solucionario */
-.solucionario-section { page-break-before: always; background: #fffbeb; padding: 2rem; border-radius: 8px; }
-.solution-block { margin-bottom: 2rem; border-bottom: 1px solid #fae8b0; padding-bottom: 1rem; }
-.solution-content { font-size: 0.95rem; color: #78350f; }
+      /* Utilidades */
+      .page-break {
+        page-break-after: always;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem auto;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+      }
 
-/* Utilidades */
-.page-break { page-break-after: always; }
-img { max-width: 100%; height: auto; display: block; margin: 1rem auto; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-radius: 6px;}
+      /* Mermaid */
+      .mermaid {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0;
+      }
+    </style>
+    <!-- Mermaid CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <!-- Paged.js Polyfill para Paginación Real -->
+    <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
 
-/* Mermaid */
-.mermaid { display: flex; justify-content: center; margin: 2rem 0; }
-</style>
-        <!-- Mermaid CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-        <!-- Paged.js Polyfill para Paginación Real -->
-        <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-        
-        <style>
-            @page {
-                size: A4;
-                margin: 20mm;
-                @bottom-center {
-                    content: "Página " counter(page);
-                    font-size: 10pt;
-                    color: #94a3b8;
-                }
-            }
-        </style>
+    <style>
+      @page {
+        size: A4;
+        margin: 20mm;
+        @bottom-center {
+          content: "Página " counter(page);
+          font-size: 10pt;
+          color: #94a3b8;
+        }
+      }
+    </style>
 
-        <script>
-            mermaid.initialize({
-                startOnLoad: false, // Control manual
-                theme: 'neutral',
-            });
-            window.PagedConfig = {
-                auto: false // Importante: control manual
-            };
-        </script>
-    </head>
-    <body>
-        <div class="cover-page">
-            <div class="logo-container">
-                <img src="file://E:\repositories\teach-laoz-courses-generator\templates\logo.svg" class="logo">
-            </div>
-            <h1 class="main-title">Manual del Curso</h1>
-            <p class="subtitle">Manual del Estudiante</p>
-            <div class="meta">Generated by Teach Laoz AI | 7/12/2025</div>
-        </div>
-        
-        <div class="page-break"></div>
+    <script>
+      mermaid.initialize({
+        startOnLoad: false, // Control manual
+        theme: "neutral",
+      });
+      window.PagedConfig = {
+        auto: false, // Importante: control manual
+      };
+    </script>
+  </head>
+  <body>
+    <div class="cover-page">
+      <div class="logo-container">
+        <img
+          src="file://E:\repositories\teach-laoz-courses-generator\templates\logo.svg"
+          class="logo"
+        />
+      </div>
+      <h1 class="main-title">Manual del Curso</h1>
+      <p class="subtitle">Manual del Estudiante</p>
+      <div class="meta">Generated by Teach Laoz AI | 7/12/2025</div>
+    </div>
 
-        <main>
-            <div class="module-section">
-                    <h1 id="modulo-1" class="module-title">MODULO 1</h1>
-                </div>
-<div class="content-block">
-<h1 id="tema-111-activos-y-pasivos-reales-el-inventario" tabindex="-1">TEMA 1.1.1: ACTIVOS Y PASIVOS REALES (EL INVENTARIO)</h1>
-<p><strong>Tiempo estimado</strong>: 45 minutos
-<strong>Nivel</strong>: Principiante
-<strong>Prerrequisitos</strong>: Módulo 0 (Mentalidad)</p>
-<h2 id="por-qu-importa-este-concepto" tabindex="-1">¿Por qué importa este concepto?</h2>
-<p>Imagina intentar adelgazar sin subirte a la báscula. Imposible, ¿verdad?
-En finanzas, la gente evita “subirse a la báscula” (ver sus números reales) porque les da miedo.
-Pero no puedes arreglar lo que no mides.
-Hoy vamos a hacer un inventario brutalmente honesto. No para juzgarte, sino para saber dónde estás en el mapa.</p>
-<h2 id="conexin-con-conocimientos-previos" tabindex="-1">Conexión con conocimientos previos</h2>
-<ul>
-<li><strong>Módulo 0</strong>: Recuerda, “Activo” pone dinero, “Pasivo” saca dinero. Tu casa <em>probablemente</em> es un pasivo.</li>
-</ul>
-<hr>
-<h2 id="el-test-del-bolsillo-la-brjula" tabindex="-1">El Test del Bolsillo (La Brújula)</h2>
-<p>Para cada cosa que posees, hazte una sola pregunta:
-<strong>“¿Si pierdo mi empleo hoy, esto me da de comer o me pide de comer?”</strong></p>
-<ul>
-<li><strong>Tu Colección de Zapatillas</strong>: Te pide espacio y cuidado. No te da de comer. -&gt; <strong>Pasivo</strong>.</li>
-<li><strong>Tu Cuenta de Ahorro</strong>: Te da (poquito) interés. -&gt; <strong>Activo</strong>.</li>
-<li><strong>Tu Coche</strong>: Te pide gasolina, seguro, reparaciones. -&gt; <strong>Pasivo</strong>.</li>
-<li><strong>Departamento en Alquiler</strong>: Si el alquiler cubre la hipoteca y sobra, te da de comer. -&gt; <strong>Activo</strong>.</li>
-</ul>
-<hr>
-<h2 id="el-ejercicio-la-foto-panormica" tabindex="-1">El Ejercicio: La Foto Panorámica</h2>
-<p>Vamos a llenar una tabla. Saca una hoja o abre Excel.</p>
-<h3 id="columna-a-lo-que-tienes-activos-potenciales" tabindex="-1">Columna A: LO QUE TIENES (Activos <em>Potenciales</em>)</h3>
-<p>Lista todo lo que podrías vender por dinero en efectivo en menos de una semana.</p>
-<ul>
-<li>Dinero en banco.</li>
-<li>Inversiones.</li>
-<li>Objetos de valor <em>real</em> (no sentimental). <em>Ojo: Tu ropa usada vale mucho menos de lo que crees.</em></li>
-</ul>
-<h3 id="columna-b-lo-que-debes-pasivos-reales" tabindex="-1">Columna B: LO QUE DEBES (Pasivos Reales)</h3>
-<p>La lista del dolor. Sé exacto.</p>
-<ul>
-<li><strong>Hipoteca</strong>: Monto total pendiente.</li>
-<li><strong>Tarjetas de Crédito</strong>: Saldo al día de hoy.</li>
-<li><strong>Préstamo del Coche</strong>.</li>
-<li><strong>Deudas a Familiares</strong>: (Sí, también cuentan).</li>
-</ul>
-<h3 id="el-clculo-final-tu-patrimonio-neto" tabindex="-1">El Cálculo Final: Tu Patrimonio Neto</h3>
-<p>$$ Patrimonio = (Total Columna A) - (Total Columna B) $$</p>
-<ul>
-<li><strong>Si es Positivo</strong>: Tienes una base sólida.</li>
-<li><strong>Si es Negativo</strong>: Debes más de lo que tienes. Estás en “Bancarrota Técnica”.
-<ul>
-<li><em>No entres en pánico</em>. La mayoría empieza aquí. Es solo el punto de partida (GPS actual).</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="errores-frecuentes" tabindex="-1">Errores frecuentes</h2>
-<h3 id="error-1-inflar-el-valor-de-las-cosas" tabindex="-1">Error 1: Inflar el valor de las cosas</h3>
-<p><em>“Mi colección de cómics vale $5,000”</em>.
-Realidad: Si intentas venderla hoy para comer, te darán $500.
-<strong>Regla</strong>: Usa el “Precio de Venta Rápida” (Fire Sale Value), no el precio de compra.</p>
-<h3 id="error-2-ignorar-las-pequeas-deudas" tabindex="-1">Error 2: Ignorar las “pequeñas” deudas</h3>
-<p>Esconder la tarjeta de crédito secundaria o el dinero que le debes a tu cuñado.
-Si lo escondes del inventario, estás saboteando tu propio mapa.</p>
-<hr>
-<h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
-<p><strong>En una frase</strong>: Tu riqueza no es cuánto ganas (sueldo), es cuánto conservas (patrimonio).</p>
-<p><strong>Regla de Oro</strong>: Un Activo Real trabaja por ti. Un Pasivo Real trabaja contra ti. El objetivo del juego es coleccionar empleados (activos) y despedir parásitos (pasivos).</p>
-<p><strong>Siguiente paso</strong>: Ahora que sabemos el <em>Stock</em> (Inventario), vamos a analizar el <em>Flujo</em> (Ingresos vs Gastos).</p>
+    <div class="page-break"></div>
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="ejercicios-tema-111-inventario-patrimonial" tabindex="-1">EJERCICIOS: TEMA 1.1.1 (INVENTARIO PATRIMONIAL)</h1>
-<h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
-<ol>
-<li>Distinguir entre Activos reales y Pasivos disfrazados.</li>
-<li>Calcular un Patrimonio Neto básico.</li>
-<li>Superar el miedo a mirar los números propios.</li>
-</ol>
-<hr>
-<h2 id="1-drill-de-identificacin-activo-o-pasivo" tabindex="-1">1. DRILL DE IDENTIFICACIÓN: ¿ACTIVO O PASIVO?</h2>
-<p><strong>Instrucción</strong>: Clasifica los siguientes ítems usando la regla: <em>“¿Me pone dinero o me saca dinero?”</em>.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Ítem</th>
-<th style="text-align:left">Tu Respuesta (Activo/Pasivo)</th>
-<th style="text-align:left">¿Por qué?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Tu coche personal (pagado)</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">Una casa que alquilas a otros (rentable)</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">Tu colección de Funko Pops</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">Acciones de Apple ($100 usd)</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">Tarjeta de Crédito (Saldo $0)</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">Tarjeta de Crédito (Saldo -$500)</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-</tbody>
-</table>
-<details>
-<summary>Ver Solución</summary>
-<ul>
-<li><strong>Coche</strong>: PASIVO. Gasta seguro y gasolina.</li>
-<li><strong>Casa en alquiler</strong>: ACTIVO. Genera renta.</li>
-<li><strong>Funkos</strong>: PASIVO (o activo especulativo de muy bajo valor).</li>
-<li><strong>Acciones</strong>: ACTIVO. Generan dividendos o valor.</li>
-<li><strong>TC en cero</strong>: NEUTRO (Herramienta).</li>
-<li><strong>TC con deuda</strong>: PASIVO (Intereses).</li>
-</ul>
-</details>
-<hr>
-<h2 id="2-caso-de-estudio-las-finanzas-de-ana" tabindex="-1">2. CASO DE ESTUDIO: LAS FINANZAS DE ANA</h2>
-<p>Ana cree que le va bien. Gana $2,000 al mes.
-Ayúdala a calcular su <strong>Patrimonio Neto real</strong>.</p>
-<p><strong>Su Lista:</strong></p>
-<ul>
-<li>Dinero en cuenta sueldo: $500</li>
-<li>Coche (valor de venta): $8,000</li>
-<li>Préstamo del coche (lo que debe): $10,000</li>
-<li>Ropa y Zapatos (precio de compra): $3,000 (Precio venta real: $300)</li>
-<li>Deuda de Tarjeta de Crédito: $2,000</li>
-<li>Fondo de Inversión: $1,000</li>
-</ul>
-<p><strong>Cálculo:</strong></p>
-<ol>
-<li>Total Activos Reales: $______</li>
-<li>Total Pasivos: $______</li>
-<li>Patrimonio Neto: $______</li>
-</ol>
-<blockquote>
-<p><em>Reflexión: ¿Ana es rica o pobre técnicamente?</em></p>
-</blockquote>
-<hr>
-<h2 id="3-tu-turno-la-hoja-en-blanco" tabindex="-1">3. TU TURNO: LA HOJA EN BLANCO</h2>
-<p>No necesitas compartir esto con nadie. Hazlo para ti.</p>
-<ol>
-<li>Abre tu app del banco. Anota el saldo.</li>
-<li>Busca el estado de cuenta de tu tarjeta. Anota la deuda.</li>
-<li>Suma todo lo positivo.</li>
-<li>Resta todo lo negativo.</li>
-<li><strong>El Resultado</strong>: _____________</li>
-</ol>
-<p>Si el número es negativo, escribe abajo en letras grandes:
-<strong>“ESTE ES MI PUNTO DE PARTIDA, NO MI DESTINO.”</strong></p>
+    <main>
+      <div class="module-section">
+        <h1 id="modulo-1" class="module-title">MODULO 1</h1>
+      </div>
+      <div class="content-block">
+        <h1 id="tema-111-activos-y-pasivos-reales-el-inventario" tabindex="-1">
+          TEMA 1.1.1. ACTIVOS Y PASIVOS REALES (EL INVENTARIO)
+        </h1>
+        <p>
+          <strong>Tiempo estimado</strong>: 45 minutos <strong>Nivel</strong>:
+          Principiante <strong>Prerrequisitos</strong>: Módulo 0 (Mentalidad)
+        </p>
+        <h2 id="por-qu-importa-este-concepto" tabindex="-1">
+          ¿Por qué importa este concepto?
+        </h2>
+        <p>
+          Imagina intentar adelgazar sin subirte a la báscula. Imposible,
+          ¿verdad? En finanzas, la gente evita “subirse a la báscula” (ver sus
+          números reales) porque les da miedo. Pero no puedes arreglar lo que no
+          mides. Hoy vamos a hacer un inventario brutalmente honesto. No para
+          juzgarte, sino para saber dónde estás en el mapa.
+        </p>
+        <h2 id="conexin-con-conocimientos-previos" tabindex="-1">
+          Conexión con conocimientos previos
+        </h2>
+        <ul>
+          <li>
+            <strong>Módulo 0</strong>: Recuerda, “Activo” pone dinero, “Pasivo”
+            saca dinero. Tu casa <em>probablemente</em> es un pasivo.
+          </li>
+        </ul>
+        <hr />
+        <h2 id="el-test-del-bolsillo-la-brjula" tabindex="-1">
+          El Test del Bolsillo (La Brújula)
+        </h2>
+        <p>
+          Para cada cosa que posees, hazte una sola pregunta:
+          <strong
+            >“¿Si pierdo mi empleo hoy, esto me da de comer o me pide de
+            comer?”</strong
+          >
+        </p>
+        <ul>
+          <li>
+            <strong>Tu Colección de Zapatillas</strong>: Te pide espacio y
+            cuidado. No te da de comer. -&gt; <strong>Pasivo</strong>.
+          </li>
+          <li>
+            <strong>Tu Cuenta de Ahorro</strong>: Te da (poquito) interés. -&gt;
+            <strong>Activo</strong>.
+          </li>
+          <li>
+            <strong>Tu Coche</strong>: Te pide gasolina, seguro, reparaciones.
+            -&gt; <strong>Pasivo</strong>.
+          </li>
+          <li>
+            <strong>Departamento en Alquiler</strong>: Si el alquiler cubre la
+            hipoteca y sobra, te da de comer. -&gt; <strong>Activo</strong>.
+          </li>
+        </ul>
+        <hr />
+        <h2 id="el-ejercicio-la-foto-panormica" tabindex="-1">
+          El Ejercicio: La Foto Panorámica
+        </h2>
+        <p>Vamos a llenar una tabla. Saca una hoja o abre Excel.</p>
+        <h3 id="columna-a-lo-que-tienes-activos-potenciales" tabindex="-1">
+          Columna A: LO QUE TIENES (Activos <em>Potenciales</em>)
+        </h3>
+        <p>
+          Lista todo lo que podrías vender por dinero en efectivo en menos de
+          una semana.
+        </p>
+        <ul>
+          <li>Dinero en banco.</li>
+          <li>Inversiones.</li>
+          <li>
+            Objetos de valor <em>real</em> (no sentimental).
+            <em>Ojo: Tu ropa usada vale mucho menos de lo que crees.</em>
+          </li>
+        </ul>
+        <h3 id="columna-b-lo-que-debes-pasivos-reales" tabindex="-1">
+          Columna B: LO QUE DEBES (Pasivos Reales)
+        </h3>
+        <p>La lista del dolor. Sé exacto.</p>
+        <ul>
+          <li><strong>Hipoteca</strong>: Monto total pendiente.</li>
+          <li><strong>Tarjetas de Crédito</strong>: Saldo al día de hoy.</li>
+          <li><strong>Préstamo del Coche</strong>.</li>
+          <li><strong>Deudas a Familiares</strong>: (Sí, también cuentan).</li>
+        </ul>
+        <h3 id="el-clculo-final-tu-patrimonio-neto" tabindex="-1">
+          El Cálculo Final: Tu Patrimonio Neto
+        </h3>
+        <p>$$ Patrimonio = (Total Columna A) - (Total Columna B) $$</p>
+        <ul>
+          <li><strong>Si es Positivo</strong>: Tienes una base sólida.</li>
+          <li>
+            <strong>Si es Negativo</strong>: Debes más de lo que tienes. Estás
+            en “Bancarrota Técnica”.
+            <ul>
+              <li>
+                <em>No entres en pánico</em>. La mayoría empieza aquí. Es solo
+                el punto de partida (GPS actual).
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <hr />
+        <h2 id="errores-frecuentes" tabindex="-1">Errores frecuentes</h2>
+        <h3 id="error-1-inflar-el-valor-de-las-cosas" tabindex="-1">
+          Error 1. Inflar el valor de las cosas
+        </h3>
+        <p>
+          <em>“Mi colección de cómics vale $5,000”</em>. Realidad: Si intentas
+          venderla hoy para comer, te darán $500. <strong>Regla</strong>: Usa el
+          “Precio de Venta Rápida” (Fire Sale Value), no el precio de compra.
+        </p>
+        <h3 id="error-2-ignorar-las-pequeas-deudas" tabindex="-1">
+          Error 2: Ignorar las “pequeñas” deudas
+        </h3>
+        <p>
+          Esconder la tarjeta de crédito secundaria o el dinero que le debes a
+          tu cuñado. Si lo escondes del inventario, estás saboteando tu propio
+          mapa.
+        </p>
+        <hr />
+        <h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
+        <p>
+          <strong>En una frase</strong>: Tu riqueza no es cuánto ganas (sueldo),
+          es cuánto conservas (patrimonio).
+        </p>
+        <p>
+          <strong>Regla de Oro</strong>: Un Activo Real trabaja por ti. Un
+          Pasivo Real trabaja contra ti. El objetivo del juego es coleccionar
+          empleados (activos) y despedir parásitos (pasivos).
+        </p>
+        <p>
+          <strong>Siguiente paso</strong>: Ahora que sabemos el
+          <em>Stock</em> (Inventario), vamos a analizar el
+          <em>Flujo</em> (Ingresos vs Gastos).
+        </p>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="ejercicios-tema-111-inventario-patrimonial" tabindex="-1">
+          EJERCICIOS: TEMA 1.1.1 (INVENTARIO PATRIMONIAL)
+        </h1>
+        <h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
+        <ol>
+          <li>Distinguir entre Activos reales y Pasivos disfrazados.</li>
+          <li>Calcular un Patrimonio Neto básico.</li>
+          <li>Superar el miedo a mirar los números propios.</li>
+        </ol>
+        <hr />
+        <h2 id="1-drill-de-identificacin-activo-o-pasivo" tabindex="-1">
+          1. DRILL DE IDENTIFICACIÓN: ¿ACTIVO O PASIVO?
+        </h2>
+        <p>
+          <strong>Instrucción</strong>: Clasifica los siguientes ítems usando la
+          regla: <em>“¿Me pone dinero o me saca dinero?”</em>.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Ítem</th>
+              <th style="text-align: left">Tu Respuesta (Activo/Pasivo)</th>
+              <th style="text-align: left">¿Por qué?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">Tu coche personal (pagado)</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left">
+                Una casa que alquilas a otros (rentable)
+              </td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Tu colección de Funko Pops</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Acciones de Apple ($100 usd)</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Tarjeta de Crédito (Saldo $0)</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Tarjeta de Crédito (Saldo -$500)</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+          </tbody>
+        </table>
+        <details>
+          <summary>Ver Solución</summary>
+          <ul>
+            <li><strong>Coche</strong>: PASIVO. Gasta seguro y gasolina.</li>
+            <li><strong>Casa en alquiler</strong>: ACTIVO. Genera renta.</li>
+            <li>
+              <strong>Funkos</strong>: PASIVO (o activo especulativo de muy bajo
+              valor).
+            </li>
+            <li>
+              <strong>Acciones</strong>: ACTIVO. Generan dividendos o valor.
+            </li>
+            <li><strong>TC en cero</strong>: NEUTRO (Herramienta).</li>
+            <li><strong>TC con deuda</strong>: PASIVO (Intereses).</li>
+          </ul>
+        </details>
+        <hr />
+        <h2 id="2-caso-de-estudio-las-finanzas-de-ana" tabindex="-1">
+          2. CASO DE ESTUDIO: LAS FINANZAS DE ANA
+        </h2>
+        <p>
+          Ana cree que le va bien. Gana $2,000 al mes. Ayúdala a calcular su
+          <strong>Patrimonio Neto real</strong>.
+        </p>
+        <p><strong>Su Lista:</strong></p>
+        <ul>
+          <li>Dinero en cuenta sueldo: $500</li>
+          <li>Coche (valor de venta): $8,000</li>
+          <li>Préstamo del coche (lo que debe): $10,000</li>
+          <li>
+            Ropa y Zapatos (precio de compra): $3,000 (Precio venta real: $300)
+          </li>
+          <li>Deuda de Tarjeta de Crédito: $2,000</li>
+          <li>Fondo de Inversión: $1,000</li>
+        </ul>
+        <p><strong>Cálculo:</strong></p>
+        <ol>
+          <li>Total Activos Reales: $______</li>
+          <li>Total Pasivos: $______</li>
+          <li>Patrimonio Neto: $______</li>
+        </ol>
+        <blockquote>
+          <p><em>Reflexión: ¿Ana es rica o pobre técnicamente?</em></p>
+        </blockquote>
+        <hr />
+        <h2 id="3-tu-turno-la-hoja-en-blanco" tabindex="-1">
+          3. TU TURNO: LA HOJA EN BLANCO
+        </h2>
+        <p>No necesitas compartir esto con nadie. Hazlo para ti.</p>
+        <ol>
+          <li>Abre tu app del banco. Anota el saldo.</li>
+          <li>Busca el estado de cuenta de tu tarjeta. Anota la deuda.</li>
+          <li>Suma todo lo positivo.</li>
+          <li>Resta todo lo negativo.</li>
+          <li><strong>El Resultado</strong>: _____________</li>
+        </ol>
+        <p>
+          Si el número es negativo, escribe abajo en letras grandes:
+          <strong>“ESTE ES MI PUNTO DE PARTIDA, NO MI DESTINO.”</strong>
+        </p>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="evaluacin-tema-111" tabindex="-1">EVALUACIÓN: TEMA 1.1.1</h1>
+        <h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
+        <ul>
+          <li><strong>Tema</strong>: Inventario Patrimonial</li>
+          <li><strong>Nivel</strong>: Principiante</li>
+        </ul>
+        <hr />
+        <h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
+        <h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
+        <p>
+          Según la definición financiera real, ¿cuál de los siguientes es un
+          <strong>Activo</strong>?
+        </p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> Tu casa propia donde vives y pagas hipoteca.
+          </li>
+          <li>
+            [ ] <strong>b)</strong> Un local comercial que alquilas y te genera
+            renta mensual positiva.
+          </li>
+          <li>[ ] <strong>c)</strong> Tu colección de ropa de diseñador.</li>
+        </ul>
+        <h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
+        <p>¿Cómo se calcula el <strong>Patrimonio Neto</strong>?</p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> Ingresos mensuales menos Gastos mensuales.
+          </li>
+          <li>
+            [ ] <strong>b)</strong> Total de Activos menos Total de Pasivos.
+          </li>
+          <li>[ ] <strong>c)</strong> El límite de tu tarjeta de crédito.</li>
+        </ul>
+        <h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
+        <p>
+          Si vendes tus cosas usadas hoy por dinero rápido, ese precio se llama:
+        </p>
+        <ul>
+          <li>[ ] <strong>a)</strong> Valor Sentimental.</li>
+          <li>[ ] <strong>b)</strong> Precio de Compra.</li>
+          <li>
+            [ ] <strong>c)</strong> <strong>Fire Sale Value</strong> (Valor de
+            Venta Rápida).
+          </li>
+        </ul>
+        <h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
+        <p>Tener un Patrimonio Neto <strong>negativo</strong> significa:</p>
+        <ul>
+          <li>[ ] <strong>a)</strong> Que eres una mala persona.</li>
+          <li>[ ] <strong>b)</strong> Que nunca podrás jubilarte.</li>
+          <li>
+            [ ] <strong>c)</strong> Que matemáticamente debes más de lo que
+            posees actualmente (Insolvencia técnica).
+          </li>
+        </ul>
+        <hr />
+        <h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
+        <ol>
+          <li>
+            <strong>b)</strong>. Solo el local pone dinero en tu bolsillo. La
+            casa y la ropa sacan dinero (mantenimiento, depreciación).
+          </li>
+          <li>
+            <strong>b)</strong>. Es la foto estática de tu riqueza, no el flujo
+            mensual.
+          </li>
+          <li>
+            <strong>c)</strong>. Es el único valor real para un inventario de
+            emergencia.
+          </li>
+          <li>
+            <strong>c)</strong>. Es un estado temporal y matemático, no un
+            juicio moral.
+          </li>
+        </ol>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="tema-121-flujo-de-caja-ingresos-vs-gastos" tabindex="-1">
+          TEMA 1.2.1. FLUJO DE CAJA (INGRESOS VS GASTOS)
+        </h1>
+        <p>
+          <strong>Tiempo estimado</strong>: 45 minutos <strong>Nivel</strong>:
+          Principiante <strong>Prerrequisitos</strong>: Tema 1.1.1 (Inventario)
+        </p>
+        <h2 id="por-qu-importa-este-concepto" tabindex="-1">
+          ¿Por qué importa este concepto?
+        </h2>
+        <p>
+          En el tema anterior, tomamos una <strong>foto</strong> (Patrimonio).
+          Ahora vamos a ver la <strong>película</strong> (Flujo de Caja). Mucha
+          gente dice: “Gano bien, pero no sé en qué se me va el dinero”. El
+          problema no es lo que ganas, es la fuga que no ves.
+        </p>
+        <h2 id="conexin-con-conocimientos-previos" tabindex="-1">
+          Conexión con conocimientos previos
+        </h2>
+        <ul>
+          <li>
+            <strong>Tema 1.1.1</strong>: Tu patrimonio (la foto) solo crece si
+            tu flujo de caja (la película) es positivo mes a mes.
+          </li>
+        </ul>
+        <hr />
+        <h2 id="1-ingresos-lo-que-realmente-entra" tabindex="-1">
+          1. Ingresos: Lo que REALMENTE entra
+        </h2>
+        <p>Tu sueldo bruto NO es tu dinero.</p>
+        <ul>
+          <li><strong>Bruto</strong>: $3,000 (Ilusión).</li>
+          <li>
+            <strong>Neto</strong>: $2,400 (Realidad, después de impuestos).
+          </li>
+          <li>
+            <strong>Disponible</strong>: $2,400 - Gastos Fijos Obligatorios.
+          </li>
+        </ul>
+        <p>
+          <strong>Regla</strong>: Solo cuenta lo que aterriza en tu cuenta
+          bancaria. Los bonos anuales NO cuentan para el presupuesto mensual.
+        </p>
+        <hr />
+        <h2 id="2-gastos-la-taxonoma-del-desastre" tabindex="-1">
+          2. Gastos: La Taxonomía del Desastre
+        </h2>
+        <p>No todos los gastos son iguales.</p>
+        <h3 id="a-gastos-fijos-la-estructura" tabindex="-1">
+          A. Gastos Fijos (La Estructura)
+        </h3>
+        <p>Son los que necesitas para vivir. Son aburridos y predecibles.</p>
+        <ul>
+          <li>Alquiler/Hipoteca.</li>
+          <li>Servicios (Luz, Agua, Internet).</li>
+          <li>Comida (Supermercado, no restaurante).</li>
+        </ul>
+        <h3 id="b-gastos-hormiga-los-culpables-invisibles" tabindex="-1">
+          B. Gastos Hormiga (Los Culpables Invisibles)
+        </h3>
+        <p>Son pequeños, placenteros y <strong>diarios</strong>.</p>
+        <ul>
+          <li>El café de la mañana ($3).</li>
+          <li>La botella de agua ($1).</li>
+          <li>La propina extra.</li>
+          <li>
+            <em>Impacto</em>: $4 al día x 30 días = $120 al mes. ¡Es una factura
+            de luz!
+          </li>
+        </ul>
+        <h3 id="c-gastos-vampiro-los-olvidados" tabindex="-1">
+          C. Gastos Vampiro (Los Olvidados)
+        </h3>
+        <p>
+          Son fijos, automáticos y
+          <strong>drenan tu cuenta sin que te des cuenta</strong>.
+        </p>
+        <ul>
+          <li>Suscripción al gimnasio que no vas.</li>
+          <li>Netflix/HBO/Disney+ (¿ves los 3?).</li>
+          <li>Comisiones bancarias.</li>
+        </ul>
+        <hr />
+        <h2 id="el-ejercicio-el-rastreo-de-30-das" tabindex="-1">
+          El Ejercicio: El Rastreo de 30 Días
+        </h2>
+        <p>
+          La única forma de saber la verdad es anotar TODO. No “más o menos”.
+          “Chicle: $0.50”.
+        </p>
+        <p>
+          Si logras anotar cada centavo durante un mes, descubrirás que tus
+          “Gastos Varios” son en realidad “Gastos Hormiga” que se comen el 20%
+          de tu sueldo.
+        </p>
+        <hr />
+        <h2 id="errores-frecuentes" tabindex="-1">Errores frecuentes</h2>
+        <h3 id="error-1-presupuestar-sobre-el-bruto" tabindex="-1">
+          Error 1. Presupuestar sobre el Bruto
+        </h3>
+        <p>Hacer planes con dinero que el gobierno ya se llevó.</p>
+        <h3 id="error-2-ignorar-los-gastos-anuales" tabindex="-1">
+          Error 2: Ignorar los gastos anuales
+        </h3>
+        <p>
+          El seguro del coche es en Agosto. La Navidad es en Diciembre. Si no
+          guardas 1/12 cada mes, esos gastos te destruirán cuando lleguen.
+        </p>
+        <hr />
+        <h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
+        <p>
+          <strong>En una frase</strong>: No importa cuánto agua entra en el
+          balde si el balde tiene agujeros.
+        </p>
+        <p>
+          <strong>Regla de Oro</strong>: Los ricos se enfocan en aumentar sus
+          ingresos; los sabios se enfocan primero en tapar las fugas (Gastos
+          Hormiga/Vampiro).
+        </p>
+        <p>
+          <strong>Siguiente paso</strong>: Ahora que tenemos el diagnóstico
+          (Patrimonio + Flujo), en el Módulo 2 construiremos la solución: El
+          Presupuesto 50/30/20.
+        </p>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="ejercicios-tema-121-flujo-de-caja" tabindex="-1">
+          EJERCICIOS: TEMA 1.2.1 (FLUJO DE CAJA)
+        </h1>
+        <h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
+        <ol>
+          <li>Diferenciar Gastos Fijos, Hormiga y Vampiro.</li>
+          <li>
+            Calcular el Flujo de Caja Real (no la ilusión del sueldo bruto).
+          </li>
+          <li>Iniciar el hábito del registro de gastos.</li>
+        </ol>
+        <hr />
+        <h2 id="1-drill-detective-de-gastos" tabindex="-1">
+          1. DRILL: DETECTIVE DE GASTOS
+        </h2>
+        <p>
+          <strong>Instrucción</strong>: Clasifica estos gastos y calcula su
+          impacto anual.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Gasto</th>
+              <th style="text-align: left">Tipo (Fijo/Hormiga/Vampiro)</th>
+              <th style="text-align: left">Costo Mensual</th>
+              <th style="text-align: left">Costo ANUAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">Alquiler del depto</td>
+              <td style="text-align: left">Fijo</td>
+              <td style="text-align: left">$800</td>
+              <td style="text-align: left">$9600</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Café de $3 diario</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left">$90</td>
+              <td style="text-align: left">$____</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Suscripción Gym (sin ir)</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left">$40</td>
+              <td style="text-align: left">$____</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Luz y Agua</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left">$60</td>
+              <td style="text-align: left">$____</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Snacks de la máquina</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left">$20</td>
+              <td style="text-align: left">$____</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <em>Pregunta</em>: ¿Cuánto sumarían los gastos “Hormiga” y “Vampiro”
+          en un año? ¿Qué podrías comprar con eso?
+        </p>
+        <hr />
+        <h2 id="2-el-reto-de-los-30-das-tracking" tabindex="-1">
+          2. EL RETO DE LOS 30 DÍAS (TRACKING)
+        </h2>
+        <p>
+          No puedes gestionar lo que no mides. Durante los próximos 30 días, te
+          comprometes a anotar <strong>cada centavo</strong> que salga de tu
+          bolsillo.
+        </p>
+        <p><strong>Reglas:</strong></p>
+        <ol>
+          <li>
+            Usa lo que tengas a mano: App, Notas del celular, o un cuaderno
+            pequeñito.
+          </li>
+          <li>Si das una propina de $0.50, anótala.</li>
+          <li>Al final del día, revisa la lista.</li>
+          <li>
+            No te juzgues. Solo observa. “Mira, gasté $15 en chicles esta
+            semana. Interesante”.
+          </li>
+        </ol>
+        <p><strong>Plantilla de Registro Diario:</strong></p>
+        <ul>
+          <li>
+            <code>[FECHA] - [CONCEPTO] - [MONTO] - [EMOCIÓN (Opcional)]</code>
+          </li>
+          <li><em>Ej: 05/Oct - Pizza - $15 - Cansado del trabajo</em></li>
+        </ul>
+        <hr />
+        <h2 id="3-clculo-de-disponibilidad-real" tabindex="-1">
+          3. CÁLCULO DE DISPONIBILIDAD REAL
+        </h2>
+        <p>
+          Juan gana $2,500 netos. Sus gastos fijos (Alquiler, Servicios,
+          Supermercado básico) son $1,800. Él cree que tiene $700 para
+          “disfrutar”.
+        </p>
+        <p>
+          Pero Juan gasta $150 en “Hormigas” (cafés, snacks) y $50 en “Vampiros”
+          (Apps que no usa).
+        </p>
+        <ol>
+          <li><strong>Ingreso Neto</strong>: $2,500</li>
+          <li><strong>Gastos Fijos</strong>: -$1,800</li>
+          <li><strong>Gastos Hormiga/Vampiro</strong>: -$______</li>
+          <li>
+            <strong>Flujo de Caja Real (Para Ahorro/Metas)</strong>: $______
+          </li>
+        </ol>
+        <blockquote>
+          <p>
+            <em
+              >Reflexión: ¿Cuánto le queda realmente a Juan para construir su
+              futuro?</em
+            >
+          </p>
+        </blockquote>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="evaluacin-tema-121-flujo-de-caja" tabindex="-1">
+          EVALUACIÓN: TEMA 1.2.1 (FLUJO DE CAJA)
+        </h1>
+        <h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
+        <ul>
+          <li>
+            <strong>Tema</strong>: Ingresos y Gastos (Hormigas y Vampiros)
+          </li>
+          <li><strong>Nivel</strong>: Principiante</li>
+        </ul>
+        <hr />
+        <h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
+        <h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
+        <p>
+          ¿Cuál es la diferencia entre el Sueldo Bruto y el Ingreso Disponible?
+        </p>
+        <ul>
+          <li>[ ] <strong>a)</strong> No hay diferencia.</li>
+          <li>
+            [ ] <strong>b)</strong> El Bruto es antes de impuestos; el
+            Disponible es lo que queda en el banco después de obligaciones
+            fijas.
+          </li>
+          <li>
+            [ ] <strong>c)</strong> El Disponible incluye los bonos de Navidad.
+          </li>
+        </ul>
+        <h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
+        <p>Un “Gasto Hormiga” se define como:</p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> Un gasto grande anual (seguro del coche).
+          </li>
+          <li>
+            [ ] <strong>b)</strong> Un gasto pequeño, frecuente y a menudo
+            innecesario (café diario).
+          </li>
+          <li>[ ] <strong>c)</strong> Un gasto de plagas en la casa.</li>
+        </ul>
+        <h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
+        <p>Un “Gasto Vampiro” se caracteriza por:</p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> Ser fijo, automático y a menudo olvidado
+            (suscripciones sin uso).
+          </li>
+          <li>[ ] <strong>b)</strong> Ocurrir solo de noche.</li>
+          <li>[ ] <strong>c)</strong> Ser deducible de impuestos.</li>
+        </ul>
+        <h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
+        <p>
+          Si ganas $2,000 netos, tienes gastos fijos de $1,500 y gastos hormiga
+          de $300, ¿cuál es tu Flujo de Caja Real para ahorro?
+        </p>
+        <ul>
+          <li>[ ] <strong>a)</strong> $500</li>
+          <li>[ ] <strong>b)</strong> $200</li>
+          <li>[ ] <strong>c)</strong> -$100</li>
+        </ul>
+        <hr />
+        <h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
+        <ol>
+          <li>
+            <strong>b)</strong>. El número que importa es el Disponible, no la
+            promesa bruta.
+          </li>
+          <li>
+            <strong>b)</strong>. El peligro es la frecuencia, no el monto
+            individual.
+          </li>
+          <li>
+            <strong>a)</strong>. Drenan el presupuesto silenciosamente cada mes.
+          </li>
+          <li>
+            <strong>b)</strong>. ($2,000 - $1,500 - $300 = $200). Esos $300 de
+            hormigas eran la mayor parte de tu capacidad de ahorro.
+          </li>
+        </ol>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="module-section">
+        <h1 id="modulo-2" class="module-title">MODULO 2</h1>
+      </div>
+      <div class="content-block">
+        <h1 id="tema-211-la-regla-503020-tu-sistema-operativo" tabindex="-1">
+          TEMA 2.1.1. LA REGLA 50/30/20 (TU SISTEMA OPERATIVO)
+        </h1>
+        <p>
+          <strong>Tiempo estimado</strong>: 45 minutos <strong>Nivel</strong>:
+          Intermedio <strong>Prerrequisitos</strong>: Módulo 1 (Diagnóstico)
+        </p>
+        <h2 id="por-qu-importa-este-concepto" tabindex="-1">
+          ¿Por qué importa este concepto?
+        </h2>
+        <p>
+          Ya sabes cuánto tienes (Patrimonio) y cuánto te queda (Flujo). Ahora
+          necesitas un sistema para decirle a tu dinero a dónde ir. La mayoría
+          falla haciendo presupuestos detallados (“$4.20 para zanahorias”). Eso
+          aburre y se abandona. La <strong>Regla 50/30/20</strong> funciona
+          porque es simple. Divide y vencerás.
+        </p>
+        <hr />
+        <h2 id="la-trada-del-control" tabindex="-1">La Tríada del Control</h2>
+        <p>
+          Imagina que tu Ingreso Neto Disponible (el real, ¡no el bruto!) es un
+          pastel. Lo vamos a partir en solo tres pedazos.
+        </p>
+        <h3 id="1-el-50-necesidades-sobrevivencia" tabindex="-1">
+          1. El 50%: NECESIDADES (Sobrevivencia)
+        </h3>
+        <p>Aquí va lo que necesitas para no morir ni ir a la cárcel.</p>
+        <ul>
+          <li>Alquiler / Hipoteca.</li>
+          <li>Servicios básicos (Luz, agua, gas).</li>
+          <li>Comida de supermercado (no Delivery).</li>
+          <li>Transporte (Gasolina o bus para ir al trabajo).</li>
+          <li>Seguros obligatorios.</li>
+        </ul>
+        <p>
+          <strong>La Regla</strong>: Si tus necesidades suman más del 50%, tu
+          vida es “cara” para tu sueldo actual. Estás en zona de riesgo.
+        </p>
+        <h3 id="2-el-30-deseos-vivir" tabindex="-1">
+          2. El 30%: DESEOS (Vivir)
+        </h3>
+        <p>Aquí va lo que hace que la vida valga la pena.</p>
+        <ul>
+          <li>Salidas a cenar.</li>
+          <li>Netflix, Spotify.</li>
+          <li>Ropa nueva (no esencial).</li>
+          <li>Vacaciones.</li>
+          <li>Ese café diario.</li>
+        </ul>
+        <p>
+          <strong>La Clave</strong>: No tienes que eliminar los deseos. Solo
+          tienes que <em>limitarlos</em> al 30%. Si gastas $300 en salidas y
+          solo tienes $100 asignados, algo debe cortarse de otro lado.
+        </p>
+        <h3 id="3-el-20-el-futuro-libertad" tabindex="-1">
+          3. El 20%: EL FUTURO (Libertad)
+        </h3>
+        <p>Este dinero NO se toca hoy. Es para tu “Yo del Futuro”.</p>
+        <ul>
+          <li>Pago de deudas (extra al mínimo).</li>
+          <li>Fondo de Emergencia.</li>
+          <li>Inversiones.</li>
+        </ul>
+        <p>
+          <strong>El Secreto</strong>: Págate a ti primero. Apenas recibas el
+          sueldo, separa este 20%.
+        </p>
+        <hr />
+        <h2 id="cmo-implementarlo-el-algoritmo" tabindex="-1">
+          Cómo implementarlo (El Algoritmo)
+        </h2>
+        <ol>
+          <li><strong>Recibe el Sueldo</strong>: Digamos $2,000.</li>
+          <li>
+            <strong>Aparta el 20%</strong>: Manda $400 a una cuenta separada
+            (Ahorro/Inversión) o paga deuda inmediatamente.
+          </li>
+          <li>
+            <strong>Calcula tus Fijos</strong>: Si tu alquiler + servicios son
+            $1,200, ¡Ups! Estás en el 60%. Tienes que reducir deseos al 20% para
+            compensar.
+          </li>
+          <li>
+            <strong>Gasta el Resto</strong>: Lo que sobra es para vivir el mes.
+          </li>
+        </ol>
+        <hr />
+        <h2 id="qu-hacer-si-no-cuadra" tabindex="-1">Qué hacer si no cuadra</h2>
+        <h3 id="escenario-a-mis-necesidades-son-el-90" tabindex="-1">
+          Escenario A: “Mis necesidades son el 90%”
+        </h3>
+        <ul>
+          <li>
+            <strong>Diagnóstico</strong>: Estás viviendo por encima de tus
+            posibilidades o ganando muy poco.
+          </li>
+          <li>
+            <strong>Solución Drástica</strong>: Mudar a una casa más barata,
+            vender el coche caro, o conseguir un segundo ingreso urgente. Ningún
+            presupuesto arregla un problema de ingresos graves.
+          </li>
+        </ul>
+        <h3 id="escenario-b-gasto-50-en-deseos" tabindex="-1">
+          Escenario B: “Gasto 50% en Deseos”
+        </h3>
+        <ul>
+          <li><strong>Diagnóstico</strong>: Estilo de vida inflado.</li>
+          <li>
+            <strong>Solución</strong>: Disciplina. Cancela suscripciones, cocina
+            en casa. Es doloroso pero necesario.
+          </li>
+        </ul>
+        <hr />
+        <h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
+        <p>
+          <strong>En una frase</strong>: No presupuestes cada centavo;
+          presupuesta porcentajes.
+        </p>
+        <p>
+          <strong>Regla de Oro</strong>: Si logras vivir con el 80% de lo que
+          ganas (50+30) y guardas el 20%, el éxito financiero es matemático e
+          inevitable.
+        </p>
+        <p>
+          <strong>Siguiente paso</strong>: Ahora que tenemos la teoría, vamos a
+          aplicarlo a tu realidad con ejercicios prácticos.
+        </p>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="ejercicios-tema-211-la-regla-503020" tabindex="-1">
+          EJERCICIOS: TEMA 2.1.1 (LA REGLA 50/30/20)
+        </h1>
+        <h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
+        <ol>
+          <li>Clasificar correctamente los gastos (Necesidad vs Deseo).</li>
+          <li>Auditar un presupuesto roto.</li>
+          <li>Crear tu propia asignación porcentual inicial.</li>
+        </ol>
+        <hr />
+        <h2 id="1-drill-de-categorizacin-el-tringulo" tabindex="-1">
+          1. DRILL DE CATEGORIZACIÓN: EL TRIÁNGULO
+        </h2>
+        <p>
+          <strong>Instrucción</strong>: Marca con una X dónde cae cada gasto.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Gasto</th>
+              <th style="text-align: center">50% Necesidad</th>
+              <th style="text-align: center">30% Deseo</th>
+              <th style="text-align: center">20% Futuro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">Mercado (Comida básica)</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Cena en restaurante</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Gasolina para ir al trabajo</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Uber para salir de fiesta</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Pago mínimo de Tarjeta</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[X] (Ojo: Deuda)</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Ahorro para Fondo Emergencia</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">
+                Internet de la casa (Trabajo/Estudio)
+              </td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Entradas para el Cine</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+              <td style="text-align: center">[ ]</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <h2 id="2-caso-de-estudio-el-presupuesto-de-carlos" tabindex="-1">
+          2. CASO DE ESTUDIO: EL PRESUPUESTO DE CARLOS
+        </h2>
+        <p>Carlos gana $1,000 netos. Así gasta su dinero:</p>
+        <ul>
+          <li>Alquiler: $600</li>
+          <li>Comida: $200</li>
+          <li>Salidas: $200</li>
+          <li>Ahorro: $0</li>
+        </ul>
+        <p><strong>Diagnóstico:</strong></p>
+        <ol>
+          <li>
+            <strong>Necesidades (Alquiler + Comida)</strong>: $800 -&gt; ____%
+            (Meta: 50%)
+          </li>
+          <li>
+            <strong>Deseos (Salidas)</strong>: $200 -&gt; ____% (Meta: 30%)
+          </li>
+          <li><strong>Futuro</strong>: $0 -&gt; ____% (Meta: 20%)</li>
+        </ol>
+        <p>
+          <strong>Pregunta</strong>: ¿Carlos está en problemas? ¿Qué le
+          aconsejarías recortar primero para acercarse al 50/30/20?
+        </p>
+        <hr />
+        <h2 id="3-tu-plantilla-maestra" tabindex="-1">
+          3. TU PLANTILLA MAESTRA
+        </h2>
+        <p>Usa tus números del Módulo 1 (Ingreso Neto Disponible).</p>
+        <ul>
+          <li><strong>TU INGRESO NETO</strong>: $___________</li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Categoría</th>
+              <th style="text-align: left">Tu Meta Ideal ($)</th>
+              <th style="text-align: left">Tu Realidad Actual (Aprox)</th>
+              <th style="text-align: left">Diferencia (Action Plan)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left"><strong>50% Necesidades</strong></td>
+              <td style="text-align: left">$_______</td>
+              <td style="text-align: left">$_______</td>
+              <td style="text-align: left">
+                <em>Ej: Mudarse? Cocinar más?</em>
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: left"><strong>30% Deseos</strong></td>
+              <td style="text-align: left">$_______</td>
+              <td style="text-align: left">$_______</td>
+              <td style="text-align: left">
+                <em>Ej: Cancelar Netflix? Menos salidas?</em>
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: left"><strong>20% Futuro</strong></td>
+              <td style="text-align: left">$_______</td>
+              <td style="text-align: left">$_______</td>
+              <td style="text-align: left">
+                <em>Ej: Configurar transferencia auto.</em>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <blockquote>
+          <p>
+            <em
+              >Nota: Si tus necesidades son el 70%, no te rindas. Tu meta
+              inicial puede ser 70/20/10. Lo importante es la dirección.</em
+            >
+          </p>
+        </blockquote>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="evaluacin-tema-211-regla-503020" tabindex="-1">
+          EVALUACIÓN: TEMA 2.1.1 (REGLA 50/30/20)
+        </h1>
+        <h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
+        <ul>
+          <li><strong>Tema</strong>: Presupuesto Simplificado</li>
+          <li><strong>Nivel</strong>: Intermedio</li>
+        </ul>
+        <hr />
+        <h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
+        <h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
+        <p>
+          En la regla 50/30/20, ¿qué categoría abarca el 50% de tus ingresos
+          netos?
+        </p>
+        <ul>
+          <li>[ ] <strong>a)</strong> Ahorros e Inversiones.</li>
+          <li>
+            [ ] <strong>b)</strong> Necesidades (Vivienda, Comida, Servicios,
+            Transporte).
+          </li>
+          <li>[ ] <strong>c)</strong> Deseos y Entretenimiento.</li>
+        </ul>
+        <h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
+        <p>
+          Si tu alquiler consume el 60% de tus ingresos, ¿cuál es la
+          consecuencia matemática inmediata según la regla?
+        </p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> No pasa nada, puedes tomar prestado del 50%.
+          </li>
+          <li>
+            [ ] <strong>b)</strong> Tienes que reducir tus Deseos (del 30% al
+            20%) o tu Ahorro para compensar.
+          </li>
+          <li>[ ] <strong>c)</strong> Debes buscar un alquiler más caro.</li>
+        </ul>
+        <h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
+        <p>La categoría “Deseos” (30%) incluye:</p>
+        <ul>
+          <li>[ ] <strong>a)</strong> Medicamentos y Seguros.</li>
+          <li>[ ] <strong>b)</strong> Pago de deudas atrasadas.</li>
+          <li>
+            [ ] <strong>c)</strong> Salidas a comer, Netflix, Ropa de moda y
+            Hobbies.
+          </li>
+        </ul>
+        <h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
+        <p>El 20% destinado al “Futuro” debe usarse para:</p>
+        <ul>
+          <li>[ ] <strong>a)</strong> Comprar el último iPhone.</li>
+          <li>
+            [ ] <strong>b)</strong> Fondo de Emergencia, Inversiones y pago
+            acelerado de deudas.
+          </li>
+          <li>
+            [ ] <strong>c)</strong> Pagar la tarjeta de crédito por los gastos
+            del mes corriente.
+          </li>
+        </ul>
+        <hr />
+        <h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
+        <ol>
+          <li>
+            <strong>b)</strong>. Son los gastos de supervivencia no negociables.
+          </li>
+          <li>
+            <strong>b)</strong>. La matemática es implacable; si un balde se
+            desborda, sale de los otros.
+          </li>
+          <li>
+            <strong>c)</strong>. Todo lo que no es esencial para sobrevivir
+            física o legalmente.
+          </li>
+          <li>
+            <strong>b)</strong>. Es dinero que compra libertad futura, no placer
+            presente.
+          </li>
+        </ol>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="module-section">
+        <h1 id="modulo-3" class="module-title">MODULO 3</h1>
+      </div>
+      <div class="content-block">
+        <h1
+          id="tema-311-bola-de-nieve-vs-avalancha-estrategias-de-salida"
+          tabindex="-1"
+        >
+          TEMA 3.1.1. BOLA DE NIEVE vs AVALANCHA (ESTRATEGIAS DE SALIDA)
+        </h1>
+        <p>
+          <strong>Tiempo estimado</strong>: 60 minutos <strong>Nivel</strong>:
+          Intermedio <strong>Prerrequisitos</strong>: Módulo 1 (Inventario de
+          Deudas)
+        </p>
+        <h2 id="por-qu-importa-este-concepto" tabindex="-1">
+          ¿Por qué importa este concepto?
+        </h2>
+        <p>
+          Tienes la lista de deudas (del Módulo 1). Ahora necesitas un plan de
+          ataque. Pagar “un poquito a cada una” es la peor estrategia: es
+          ineficiente y desmotivante. Necesitas enfocar tu “cañón de dinero”
+          (ese 20% del futuro) en un solo objetivo a la vez.
+        </p>
+        <hr />
+        <h2 id="las-dos-grandes-estrategias" tabindex="-1">
+          Las Dos Grandes Estrategias
+        </h2>
+        <p>
+          Ambas requieren que pagues el <strong>mínimo</strong> en todas tus
+          deudas excepto en una (la “Víctima”).
+        </p>
+        <h3 id="1-la-bola-de-nieve-el-mtodo-psiclogico" tabindex="-1">
+          1. La Bola de Nieve (El Método Psicólogico)
+        </h3>
+        <p>Popularizado por Dave Ramsey.</p>
+        <ul>
+          <li>
+            <strong>Orden</strong>: De la deuda más <strong>PEQUEÑA</strong> a
+            la más grande (ignorando la tasa de interés).
+          </li>
+          <li>
+            <strong>La Lógica</strong>: Al matar la deuda pequeña rápido,
+            obtienes una victoria inmediata (“¡Sí se puede!”). Liberas ese pago
+            mínimo y lo sumas a la siguiente.
+          </li>
+          <li>
+            <strong>Ideal para</strong>: Personas que necesitan motivación
+            rápida y ver progreso visual.
+          </li>
+        </ul>
+        <h3 id="2-la-avalancha-el-mtodo-matemtico" tabindex="-1">
+          2. La Avalancha (El Método Matemático)
+        </h3>
+        <p>El favorito de los economistas.</p>
+        <ul>
+          <li>
+            <strong>Orden</strong>: De la tasa de interés más
+            <strong>ALTA</strong> a la más baja.
+          </li>
+          <li>
+            <strong>La Lógica</strong>: Atacas la deuda más tóxica primero.
+            Matemáticamente pagas menos intereses a largo plazo.
+          </li>
+          <li>
+            <strong>Ideal para</strong>: Personas disciplinadas, frías y
+            analíticas que no necesitan “palmaditas en la espalda”.
+          </li>
+        </ul>
+        <hr />
+        <h2 id="ejemplo-prctico" tabindex="-1">Ejemplo Práctico</h2>
+        <p><strong>Tus Enemigos:</strong></p>
+        <ol>
+          <li>Tarjeta Visa: $500 (Saldo) - 20% (Interés).</li>
+          <li>Préstamo Estudiantil: $5,000 (Saldo) - 5% (Interés).</li>
+          <li>Préstamo Personal: $2,000 (Saldo) - 15% (Interés).</li>
+        </ol>
+        <p><strong>Orden Bola de Nieve (Por Saldo):</strong></p>
+        <ol>
+          <li>Visa ($500) -&gt; ¡Muere rápido!</li>
+          <li>Personal ($2,000).</li>
+          <li>Estudiantil ($5,000).</li>
+        </ol>
+        <p><strong>Orden Avalancha (Por Interés):</strong></p>
+        <ol>
+          <li>Visa (20%).</li>
+          <li>Personal (15%).</li>
+          <li>
+            Estudiantil (5%).
+            <em
+              >(En este caso coinciden, pero si la deuda de $5,000 tuviera el
+              30% de interés, la Avalancha la atacaría primero, aunque tardarías
+              años en verla desaparecer).</em
+            >
+          </li>
+        </ol>
+        <hr />
+        <h2 id="cul-elegir" tabindex="-1">¿Cuál elegir?</h2>
+        <p>
+          La matemática dice Avalancha. La psicología dice Bola de Nieve.
+          <strong
+            >Las finanzas personales son 80% comportamiento y 20%
+            matemáticas.</strong
+          >
+          Si abandonas el plan a los 3 meses porque no ves resultados, la
+          matemática no sirve de nada. Por eso, para el 90% de la gente,
+          recomendamos <strong>Bola de Nieve</strong>.
+        </p>
+        <hr />
+        <h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
+        <p>
+          <strong>En una frase</strong>: No trates de matar a todos los dragones
+          a la vez. Mata al pequeño, gana confianza, y usa su fuerza para matar
+          al siguiente.
+        </p>
+        <p>
+          <strong>Regla de Oro</strong>: Pagar el mínimo te mantiene esclavo.
+          Pagar extra (Bola de Nieve) te hace libre.
+        </p>
+        <p>
+          <strong>Siguiente paso</strong>: Vamos a simular tu plan de pagos en
+          los ejercicios.
+        </p>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="ejercicios-tema-311-estrategias-de-deuda" tabindex="-1">
+          EJERCICIOS: TEMA 3.1.1 (ESTRATEGIAS DE DEUDA)
+        </h1>
+        <h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
+        <ol>
+          <li>Comparar resultados de Bola de Nieve vs Avalancha.</li>
+          <li>Elegir tu estrategia personal.</li>
+          <li>Crear tu “Tabla de Ataque”.</li>
+        </ol>
+        <hr />
+        <h2 id="1-simulacin-de-batalla" tabindex="-1">
+          1. SIMULACIÓN DE BATALLA
+        </h2>
+        <p>
+          <strong>Escenario</strong>: Tienes $200 extra al mes para atacar
+          deudas (después de pagar mínimos).
+        </p>
+        <p><strong>Tus Enemigos:</strong></p>
+        <ul>
+          <li>
+            <strong>A (Tarjeta)</strong>: $1,000 saldo (25% interés) - Mínimo
+            $30.
+          </li>
+          <li>
+            <strong>B (Coche)</strong>: $5,000 saldo (8% interés) - Mínimo $100.
+          </li>
+          <li>
+            <strong>C (Médica)</strong>: $500 saldo (0% interés - familiar) -
+            Mínimo $50.
+          </li>
+        </ul>
+        <p><strong>Ejercicio</strong>:</p>
+        <ol>
+          <li>
+            <p><strong>Orden Bola de Nieve</strong> (Menor a Mayor Saldo):</p>
+            <ul>
+              <li>1ro: ___________</li>
+              <li>2do: ___________</li>
+              <li>3ro: ___________</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Orden Avalancha</strong> (Mayor a Menor Interés):</p>
+            <ul>
+              <li>1ro: ___________</li>
+              <li>2do: ___________</li>
+              <li>3ro: ___________</li>
+            </ul>
+          </li>
+        </ol>
+        <p>
+          <em>Pregunta</em>: Si eliges Bola de Nieve, ¿cuál deuda atacarías
+          primero con los $200 extra?
+        </p>
+        <hr />
+        <h2 id="2-tu-tabla-de-ataque" tabindex="-1">2. TU TABLA DE ATAQUE</h2>
+        <p>Llena esta tabla con tus deudas reales.</p>
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Nombre Deuda</th>
+              <th style="text-align: left">Saldo Total ($)</th>
+              <th style="text-align: left">Tasa Interés (%)</th>
+              <th style="text-align: left">Pago Mínimo ($)</th>
+              <th style="text-align: left">Prioridad (1, 2, 3…)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+          </tbody>
+        </table>
+        <ul>
+          <li><strong>Total Pago Mínimo Mensual</strong>: $________</li>
+          <li>
+            <strong>Tu “Cañón” Extra (Disponibilidad Módulo 1)</strong>:
+            $________
+          </li>
+        </ul>
+        <hr />
+        <h2 id="3-compromiso-psicolgico" tabindex="-1">
+          3. COMPROMISO PSICOLÓGICO
+        </h2>
+        <p>
+          A veces la matemática correcta se siente mal. Si tienes una deuda
+          pequeña que te molesta emocionalmente (ej: dinero prestado a un
+          amigo), <strong>permítete pagarla primero</strong> aunque no sea
+          “matemáticamente óptimo”. La paz mental vale más que un 2% de interés.
+        </p>
+        <p><strong>Escribe aquí tu estrategia elegida</strong>:</p>
+        <hr />
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="evaluacin-tema-311-deuda" tabindex="-1">
+          EVALUACIÓN: TEMA 3.1.1 (DEUDA)
+        </h1>
+        <h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
+        <ul>
+          <li>
+            <strong>Tema</strong>: Estrategias de Pago (Bola de Nieve /
+            Avalancha)
+          </li>
+          <li><strong>Nivel</strong>: Intermedio</li>
+        </ul>
+        <hr />
+        <h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
+        <h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
+        <p>
+          ¿En qué orden se pagan las deudas en el método
+          <strong>Bola de Nieve</strong>?
+        </p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> De la tasa de interés más alta a la más
+            baja.
+          </li>
+          <li>
+            [ ] <strong>b)</strong> De la deuda con saldo más pequeño a la más
+            grande.
+          </li>
+          <li>[ ] <strong>c)</strong> Por orden alfabético del banco.</li>
+        </ul>
+        <h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
+        <p>
+          ¿Cuál es la principal ventaja del método <strong>Avalancha</strong>?
+        </p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> Es psicológicamente más gratificante al
+            principio.
+          </li>
+          <li>
+            [ ] <strong>b)</strong> Es matemáticamente óptimo porque ahorra más
+            intereses a largo plazo.
+          </li>
+          <li>[ ] <strong>c)</strong> Es más fácil de calcular.</li>
+        </ul>
+        <h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
+        <p>
+          ¿Qué debes hacer con las demás deudas mientras atacas a tu “Víctima”
+          (deuda objetivo)?
+        </p>
+        <ul>
+          <li>[ ] <strong>a)</strong> Dejar de pagarlas temporalmente.</li>
+          <li>[ ] <strong>b)</strong> Pagar solo el Pago Mínimo exigido.</li>
+          <li>[ ] <strong>c)</strong> Pagar la mitad del mínimo.</li>
+        </ul>
+        <h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
+        <p>
+          ¿Por qué el método Bola de Nieve suele ser más efectivo para la
+          mayoría de las personas, aunque no sea el matemáticamente perfecto?
+        </p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> Porque genera
+            <strong>victorias rápidas</strong> (momentum) que modifican el
+            comportamiento.
+          </li>
+          <li>
+            [ ] <strong>b)</strong> Porque los bancos prefieren que pagues así.
+          </li>
+          <li>
+            [ ] <strong>c)</strong> Porque elimina las deudas con intereses más
+            altos primero.
+          </li>
+        </ul>
+        <hr />
+        <h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
+        <ol>
+          <li>
+            <strong>b)</strong>. El foco es el saldo, no el interés, para
+            obtener victorias rápidas.
+          </li>
+          <li>
+            <strong>b)</strong>. Al eliminar tasas altas primero, el costo total
+            del dinero es menor.
+          </li>
+          <li>
+            <strong>b)</strong>. Nunca dejes de pagar los mínimos o arruinarás
+            tu historial crediticio.
+          </li>
+          <li>
+            <strong>a)</strong>. Las finanzas personales son 80% comportamiento.
+            Sin motivación, el plan se abandona.
+          </li>
+        </ol>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="module-section">
+        <h1 id="modulo-4" class="module-title">MODULO 4</h1>
+      </div>
+      <div class="content-block">
+        <h1 id="tema-411-el-fondo-de-emergencia-tu-blindaje" tabindex="-1">
+          TEMA 4.1.1. EL FONDO DE EMERGENCIA (TU BLINDAJE)
+        </h1>
+        <p>
+          <strong>Tiempo estimado</strong>: 45 minutos <strong>Nivel</strong>:
+          Intermedio <strong>Prerrequisitos</strong>: Módulo 2 (Presupuesto)
+        </p>
+        <h2 id="por-qu-importa-este-concepto" tabindex="-1">
+          ¿Por qué importa este concepto?
+        </h2>
+        <p>
+          La vida golpea. El coche se rompe. Te quedas sin trabajo. Hay una
+          pandemia. Sin un Fondo de Emergencia, cualquier golpe te manda de
+          vuelta a la deuda (tarjeta de crédito). Con un Fondo, un desastre se
+          convierte en una simple “molestia administrativa”. Es la diferencia
+          entre fragilidad y seguridad.
+        </p>
+        <hr />
+        <h2 id="1-el-nmero-mgico-3-a-6-meses" tabindex="-1">
+          1. El Número Mágico: 3 a 6 Meses
+        </h2>
+        <p>
+          No ahorras para “comprar cosas”. Ahorras para “comprar tranquilidad”.
+          Tu Fondo debe cubrir tus <strong>Gastos Fijos Necesarios</strong> (el
+          50% del Módulo 2), no tu sueldo entero.
+        </p>
+        <h3 id="clculo" tabindex="-1">Cálculo</h3>
+        <ul>
+          <li><strong>Gastos Fijos (Necesidades)</strong>: $1,200/mes.</li>
+          <li><strong>Fondo Mínimo (3 meses)</strong>: $3,600.</li>
+          <li><strong>Fondo Robusto (6 meses)</strong>: $7,200.</li>
+        </ul>
+        <p><strong>¿3 o 6?</strong></p>
+        <ul>
+          <li>
+            Elige <strong>3 meses</strong> si: Eres soltero, tienes empleo
+            estable, alquilas.
+          </li>
+          <li>
+            Elige <strong>6 meses</strong> si: Tienes hijos, hipoteca, o
+            ingresos variables (freelance).
+          </li>
+        </ul>
+        <hr />
+        <h2 id="2-dnde-ponerlo-la-regla-de-oro" tabindex="-1">
+          2. Dónde ponerlo (La Regla de Oro)
+        </h2>
+        <p>El Fondo de Emergencia tiene dos reglas sagradas:</p>
+        <ol>
+          <li><strong>Liquidez</strong>: Debes poder sacarlo HOY.</li>
+          <li><strong>Seguridad</strong>: No puede bajar de valor.</li>
+        </ol>
+        <ul>
+          <li>
+            <strong>SÍ</strong>: Cuenta de Ahorro de Alto Rendimiento (separada
+            de tu cuenta diaria).
+          </li>
+          <li>
+            <strong>NO</strong>: Debajo del colchón (inflación), Bolsa de
+            Valores (riesgo), Criptomonedas (volatilidad) o Bienes Raíces (no
+            líquido).
+          </li>
+        </ul>
+        <hr />
+        <h2 id="3-cundo-usarlo-el-semforo" tabindex="-1">
+          3. ¿Cuándo usarlo? (El Semáforo)
+        </h2>
+        <p>
+          No uses el Fondo para comprar un iPhone nuevo ni para las vacaciones.
+        </p>
+        <ul>
+          <li>
+            🟢 <strong>Luz Verde (Emergencia)</strong>: Pérdida de empleo,
+            Emergencia médica real, Reparación crítica del hogar/auto.
+          </li>
+          <li>
+            🔴 <strong>Luz Roja (Capricho)</strong>: Regalos de Navidad, Ropa en
+            oferta, Viajes.
+          </li>
+        </ul>
+        <hr />
+        <h2 id="estrategia-de-llenado" tabindex="-1">Estrategia de Llenado</h2>
+        <p>
+          Si tu Fondo está en $0, da miedo ver la meta de $7,000. Rómpelo en
+          hitos:
+        </p>
+        <ol>
+          <li>
+            <strong>Fondo de Principiante</strong>: Ahorra $1,000 lo más rápido
+            posible (vende cosas, horas extra). Esto evita que la próxima llanta
+            pinchada te endeude.
+          </li>
+          <li>
+            <strong>Fondo Completo</strong>: Una vez pagadas las deudas (Módulo
+            3), vuelca todo el “cañón de dinero” a llenar los 3-6 meses.
+          </li>
+        </ol>
+        <hr />
+        <h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
+        <p>
+          <strong>En una frase</strong>: El Fondo de Emergencia convierte crisis
+          financieras en meros inconvenientes.
+        </p>
+        <p>
+          <strong>Regla de Oro</strong>: No inviertas un solo centavo hasta que
+          tu escudo (Fondo) esté completo. Invertir sin fondo es saltar sin
+          paracaídas.
+        </p>
+        <p>
+          <strong>Siguiente paso</strong>: Ejercicios para calcular tu número
+          exacto y definir dónde guardarlo.
+        </p>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="ejercicios-tema-411-fondo-de-emergencia" tabindex="-1">
+          EJERCICIOS: TEMA 4.1.1 (FONDO DE EMERGENCIA)
+        </h1>
+        <h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
+        <ol>
+          <li>Calcular tu Número de Libertad (Monto Total del Fondo).</li>
+          <li>
+            Definir una estrategia de llenado rápido para los primeros $1,000.
+          </li>
+          <li>Auditar tus “Líneas de Crédito” mentales.</li>
+        </ol>
+        <hr />
+        <h2 id="1-tu-nmero-de-libertad" tabindex="-1">
+          1. TU NÚMERO DE LIBERTAD
+        </h2>
+        <p>Usa los datos de tus “Gastos Fijos Necesarios” del Módulo 2.</p>
+        <ul>
+          <li>
+            <p>
+              <strong>A. Gastos Fijos Mensuales (Supervivencia)</strong>:
+              $_________ <em>(Alquiler, comida, luz, transporte min)</em>
+            </p>
+          </li>
+          <li>
+            <p><strong>B. Meses de Cobertura Deseados</strong>:</p>
+            <ul>
+              <li>[ ] 3 Meses (Soltero, estable)</li>
+              <li>[ ] 6 Meses (Familia, variable)</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>C. TU OBJETIVO FINAL (A x B)</strong>: $_________</p>
+          </li>
+        </ul>
+        <hr />
+        <h2 id="2-la-venta-del-siglo-meta-1000-ya" tabindex="-1">
+          2. LA VENTA DEL SIGLO (META: $1,000 YA)
+        </h2>
+        <p>
+          Si no tienes ni $1,000 ahorrados, estás en emergencia HOY. Tienes 72
+          horas para encontrar dinero.
+        </p>
+        <p><strong>Busca en tu casa:</strong></p>
+        <ol>
+          <li>Ropa que no usas.</li>
+          <li>Electrónicos viejos.</li>
+          <li>Muebles sobrantes.</li>
+        </ol>
+        <p><strong>Lista de Objetos a Vender:</strong></p>
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Objeto</th>
+              <th style="text-align: left">Valor Estimado</th>
+              <th style="text-align: left">Plataforma (Marketplace/Ebay)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left"><strong>TOTAL</strong>: $_______</td>
+              <td style="text-align: left"></td>
+              <td style="text-align: left"></td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <h2 id="3-auditora-de-lugares-seguros" tabindex="-1">
+          3. AUDITORÍA DE LUGARES SEGUROS
+        </h2>
+        <p>
+          ¿Dónde vas a poner este dinero? Investiga 2 opciones de “Cuenta de
+          Ahorro de Alto Rendimiento” en tu país. Deben tener:
+        </p>
+        <ol>
+          <li>Sin costo de mantenimiento.</li>
+          <li>Disponibilidad inmediata.</li>
+          <li>Tasa de interés decente.</li>
+        </ol>
+        <ul>
+          <li><strong>Opción A</strong>: _____________________</li>
+          <li><strong>Opción B</strong>: _____________________</li>
+          <li><strong>Ganador</strong>: _____________________</li>
+        </ul>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+      <div class="content-block">
+        <h1 id="evaluacin-tema-411-fondo-de-emergencia" tabindex="-1">
+          EVALUACIÓN: TEMA 4.1.1 (FONDO DE EMERGENCIA)
+        </h1>
+        <h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
+        <ul>
+          <li><strong>Tema</strong>: Blindaje Financiero</li>
+          <li><strong>Nivel</strong>: Intermedio</li>
+        </ul>
+        <hr />
+        <h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
+        <h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
+        <p>El tamaño recomendado para un Fondo de Emergencia básico es:</p>
+        <ul>
+          <li>[ ] <strong>a)</strong> $100 dólares.</li>
+          <li>
+            [ ] <strong>b)</strong> 3 a 6 meses de tus
+            <strong>Gastos Fijos Necesarios</strong>.
+          </li>
+          <li>[ ] <strong>c)</strong> 1 año de tu Sueldo Bruto.</li>
+        </ul>
+        <h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
+        <p>¿Dónde debe guardarse el Fondo de Emergencia?</p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> Debajo del colchón (Efectivo en casa).
+          </li>
+          <li>
+            [ ] <strong>b)</strong> En acciones de la bolsa o criptomonedas
+            (para que crezca rápido).
+          </li>
+          <li>
+            [ ] <strong>c)</strong> En una Cuenta de Ahorro de alto rendimiento,
+            líquida y separada de la cuenta de gastos diarios.
+          </li>
+        </ul>
+        <h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
+        <p>
+          ¿Cuál de las siguientes situaciones <strong>JUSTIFICA</strong> usar el
+          Fondo de Emergencia?
+        </p>
+        <ul>
+          <li>
+            [ ] <strong>a)</strong> Tu banda favorita viene a la ciudad y las
+            entradas están caras.
+          </li>
+          <li>
+            [ ] <strong>b)</strong> Se rompió la transmisión de tu coche y lo
+            necesitas para ir a trabajar.
+          </li>
+          <li>
+            [ ] <strong>c)</strong> Hay una oferta de “2x1” en televisores.
+          </li>
+        </ul>
+        <h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
+        <p>
+          ¿Por qué NO se recomienda invertir el Fondo de Emergencia en la Bolsa?
+        </p>
+        <ul>
+          <li>[ ] <strong>a)</strong> Porque la Bolsa es solo para ricos.</li>
+          <li>
+            [ ] <strong>b)</strong> Porque necesitas <strong>Liquidez</strong> y
+            <strong>Seguridad</strong> (que el dinero esté ahí cuando lo
+            necesites, sin riesgo de que haya bajado de valor).
+          </li>
+          <li>[ ] <strong>c)</strong> Porque los bancos no lo permiten.</li>
+        </ul>
+        <hr />
+        <h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
+        <ol>
+          <li><strong>b)</strong>. Cubrir la supervivencia es la prioridad.</li>
+          <li>
+            <strong>c)</strong>. Busca el equilibrio entre acceso inmediato y
+            protección contra la inflación (interés), sin riesgo de pérdida.
+          </li>
+          <li><strong>b)</strong>. Es urgente, inesperado y necesario.</li>
+          <li>
+            <strong>b)</strong>. El propósito del fondo es seguridad (seguro),
+            no crecimiento (inversión).
+          </li>
+        </ol>
+      </div>
+      <div style="page-break-after: always; break-after: page"></div>
+    </main>
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="evaluacin-tema-111" tabindex="-1">EVALUACIÓN: TEMA 1.1.1</h1>
-<h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
-<ul>
-<li><strong>Tema</strong>: Inventario Patrimonial</li>
-<li><strong>Nivel</strong>: Principiante</li>
-</ul>
-<hr>
-<h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
-<h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
-<p>Según la definición financiera real, ¿cuál de los siguientes es un <strong>Activo</strong>?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Tu casa propia donde vives y pagas hipoteca.</li>
-<li>[ ] <strong>b)</strong> Un local comercial que alquilas y te genera renta mensual positiva.</li>
-<li>[ ] <strong>c)</strong> Tu colección de ropa de diseñador.</li>
-</ul>
-<h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
-<p>¿Cómo se calcula el <strong>Patrimonio Neto</strong>?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Ingresos mensuales menos Gastos mensuales.</li>
-<li>[ ] <strong>b)</strong> Total de Activos menos Total de Pasivos.</li>
-<li>[ ] <strong>c)</strong> El límite de tu tarjeta de crédito.</li>
-</ul>
-<h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
-<p>Si vendes tus cosas usadas hoy por dinero rápido, ese precio se llama:</p>
-<ul>
-<li>[ ] <strong>a)</strong> Valor Sentimental.</li>
-<li>[ ] <strong>b)</strong> Precio de Compra.</li>
-<li>[ ] <strong>c)</strong> <strong>Fire Sale Value</strong> (Valor de Venta Rápida).</li>
-</ul>
-<h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
-<p>Tener un Patrimonio Neto <strong>negativo</strong> significa:</p>
-<ul>
-<li>[ ] <strong>a)</strong> Que eres una mala persona.</li>
-<li>[ ] <strong>b)</strong> Que nunca podrás jubilarte.</li>
-<li>[ ] <strong>c)</strong> Que matemáticamente debes más de lo que posees actualmente (Insolvencia técnica).</li>
-</ul>
-<hr>
-<h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
-<ol>
-<li><strong>b)</strong>. Solo el local pone dinero en tu bolsillo. La casa y la ropa sacan dinero (mantenimiento, depreciación).</li>
-<li><strong>b)</strong>. Es la foto estática de tu riqueza, no el flujo mensual.</li>
-<li><strong>c)</strong>. Es el único valor real para un inventario de emergencia.</li>
-<li><strong>c)</strong>. Es un estado temporal y matemático, no un juicio moral.</li>
-</ol>
+    <section class="solucionario-section"></section>
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="tema-121-flujo-de-caja-ingresos-vs-gastos" tabindex="-1">TEMA 1.2.1: FLUJO DE CAJA (INGRESOS VS GASTOS)</h1>
-<p><strong>Tiempo estimado</strong>: 45 minutos
-<strong>Nivel</strong>: Principiante
-<strong>Prerrequisitos</strong>: Tema 1.1.1 (Inventario)</p>
-<h2 id="por-qu-importa-este-concepto" tabindex="-1">¿Por qué importa este concepto?</h2>
-<p>En el tema anterior, tomamos una <strong>foto</strong> (Patrimonio).
-Ahora vamos a ver la <strong>película</strong> (Flujo de Caja).
-Mucha gente dice: “Gano bien, pero no sé en qué se me va el dinero”.
-El problema no es lo que ganas, es la fuga que no ves.</p>
-<h2 id="conexin-con-conocimientos-previos" tabindex="-1">Conexión con conocimientos previos</h2>
-<ul>
-<li><strong>Tema 1.1.1</strong>: Tu patrimonio (la foto) solo crece si tu flujo de caja (la película) es positivo mes a mes.</li>
-</ul>
-<hr>
-<h2 id="1-ingresos-lo-que-realmente-entra" tabindex="-1">1. Ingresos: Lo que REALMENTE entra</h2>
-<p>Tu sueldo bruto NO es tu dinero.</p>
-<ul>
-<li><strong>Bruto</strong>: $3,000 (Ilusión).</li>
-<li><strong>Neto</strong>: $2,400 (Realidad, después de impuestos).</li>
-<li><strong>Disponible</strong>: $2,400 - Gastos Fijos Obligatorios.</li>
-</ul>
-<p><strong>Regla</strong>: Solo cuenta lo que aterriza en tu cuenta bancaria. Los bonos anuales NO cuentan para el presupuesto mensual.</p>
-<hr>
-<h2 id="2-gastos-la-taxonoma-del-desastre" tabindex="-1">2. Gastos: La Taxonomía del Desastre</h2>
-<p>No todos los gastos son iguales.</p>
-<h3 id="a-gastos-fijos-la-estructura" tabindex="-1">A. Gastos Fijos (La Estructura)</h3>
-<p>Son los que necesitas para vivir. Son aburridos y predecibles.</p>
-<ul>
-<li>Alquiler/Hipoteca.</li>
-<li>Servicios (Luz, Agua, Internet).</li>
-<li>Comida (Supermercado, no restaurante).</li>
-</ul>
-<h3 id="b-gastos-hormiga-los-culpables-invisibles" tabindex="-1">B. Gastos Hormiga (Los Culpables Invisibles)</h3>
-<p>Son pequeños, placenteros y <strong>diarios</strong>.</p>
-<ul>
-<li>El café de la mañana ($3).</li>
-<li>La botella de agua ($1).</li>
-<li>La propina extra.</li>
-<li><em>Impacto</em>: $4 al día x 30 días = $120 al mes. ¡Es una factura de luz!</li>
-</ul>
-<h3 id="c-gastos-vampiro-los-olvidados" tabindex="-1">C. Gastos Vampiro (Los Olvidados)</h3>
-<p>Son fijos, automáticos y <strong>drenan tu cuenta sin que te des cuenta</strong>.</p>
-<ul>
-<li>Suscripción al gimnasio que no vas.</li>
-<li>Netflix/HBO/Disney+ (¿ves los 3?).</li>
-<li>Comisiones bancarias.</li>
-</ul>
-<hr>
-<h2 id="el-ejercicio-el-rastreo-de-30-das" tabindex="-1">El Ejercicio: El Rastreo de 30 Días</h2>
-<p>La única forma de saber la verdad es anotar TODO.
-No “más o menos”.
-“Chicle: $0.50”.</p>
-<p>Si logras anotar cada centavo durante un mes, descubrirás que tus “Gastos Varios” son en realidad “Gastos Hormiga” que se comen el 20% de tu sueldo.</p>
-<hr>
-<h2 id="errores-frecuentes" tabindex="-1">Errores frecuentes</h2>
-<h3 id="error-1-presupuestar-sobre-el-bruto" tabindex="-1">Error 1: Presupuestar sobre el Bruto</h3>
-<p>Hacer planes con dinero que el gobierno ya se llevó.</p>
-<h3 id="error-2-ignorar-los-gastos-anuales" tabindex="-1">Error 2: Ignorar los gastos anuales</h3>
-<p>El seguro del coche es en Agosto. La Navidad es en Diciembre.
-Si no guardas 1/12 cada mes, esos gastos te destruirán cuando lleguen.</p>
-<hr>
-<h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
-<p><strong>En una frase</strong>: No importa cuánto agua entra en el balde si el balde tiene agujeros.</p>
-<p><strong>Regla de Oro</strong>: Los ricos se enfocan en aumentar sus ingresos; los sabios se enfocan primero en tapar las fugas (Gastos Hormiga/Vampiro).</p>
-<p><strong>Siguiente paso</strong>: Ahora que tenemos el diagnóstico (Patrimonio + Flujo), en el Módulo 2 construiremos la solución: El Presupuesto 50/30/20.</p>
+    <div class="page-break"></div>
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="ejercicios-tema-121-flujo-de-caja" tabindex="-1">EJERCICIOS: TEMA 1.2.1 (FLUJO DE CAJA)</h1>
-<h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
-<ol>
-<li>Diferenciar Gastos Fijos, Hormiga y Vampiro.</li>
-<li>Calcular el Flujo de Caja Real (no la ilusión del sueldo bruto).</li>
-<li>Iniciar el hábito del registro de gastos.</li>
-</ol>
-<hr>
-<h2 id="1-drill-detective-de-gastos" tabindex="-1">1. DRILL: DETECTIVE DE GASTOS</h2>
-<p><strong>Instrucción</strong>: Clasifica estos gastos y calcula su impacto anual.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Gasto</th>
-<th style="text-align:left">Tipo (Fijo/Hormiga/Vampiro)</th>
-<th style="text-align:left">Costo Mensual</th>
-<th style="text-align:left">Costo ANUAL</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Alquiler del depto</td>
-<td style="text-align:left">Fijo</td>
-<td style="text-align:left">$800</td>
-<td style="text-align:left">$9600</td>
-</tr>
-<tr>
-<td style="text-align:left">Café de $3 diario</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">$90</td>
-<td style="text-align:left">$____</td>
-</tr>
-<tr>
-<td style="text-align:left">Suscripción Gym (sin ir)</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">$40</td>
-<td style="text-align:left">$____</td>
-</tr>
-<tr>
-<td style="text-align:left">Luz y Agua</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">$60</td>
-<td style="text-align:left">$____</td>
-</tr>
-<tr>
-<td style="text-align:left">Snacks de la máquina</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">$20</td>
-<td style="text-align:left">$____</td>
-</tr>
-</tbody>
-</table>
-<p><em>Pregunta</em>: ¿Cuánto sumarían los gastos “Hormiga” y “Vampiro” en un año? ¿Qué podrías comprar con eso?</p>
-<hr>
-<h2 id="2-el-reto-de-los-30-das-tracking" tabindex="-1">2. EL RETO DE LOS 30 DÍAS (TRACKING)</h2>
-<p>No puedes gestionar lo que no mides.
-Durante los próximos 30 días, te comprometes a anotar <strong>cada centavo</strong> que salga de tu bolsillo.</p>
-<p><strong>Reglas:</strong></p>
-<ol>
-<li>Usa lo que tengas a mano: App, Notas del celular, o un cuaderno pequeñito.</li>
-<li>Si das una propina de $0.50, anótala.</li>
-<li>Al final del día, revisa la lista.</li>
-<li>No te juzgues. Solo observa. “Mira, gasté $15 en chicles esta semana. Interesante”.</li>
-</ol>
-<p><strong>Plantilla de Registro Diario:</strong></p>
-<ul>
-<li><code>[FECHA] - [CONCEPTO] - [MONTO] - [EMOCIÓN (Opcional)]</code></li>
-<li><em>Ej: 05/Oct - Pizza - $15 - Cansado del trabajo</em></li>
-</ul>
-<hr>
-<h2 id="3-clculo-de-disponibilidad-real" tabindex="-1">3. CÁLCULO DE DISPONIBILIDAD REAL</h2>
-<p>Juan gana $2,500 netos.
-Sus gastos fijos (Alquiler, Servicios, Supermercado básico) son $1,800.
-Él cree que tiene $700 para “disfrutar”.</p>
-<p>Pero Juan gasta $150 en “Hormigas” (cafés, snacks) y $50 en “Vampiros” (Apps que no usa).</p>
-<ol>
-<li><strong>Ingreso Neto</strong>: $2,500</li>
-<li><strong>Gastos Fijos</strong>: -$1,800</li>
-<li><strong>Gastos Hormiga/Vampiro</strong>: -$______</li>
-<li><strong>Flujo de Caja Real (Para Ahorro/Metas)</strong>: $______</li>
-</ol>
-<blockquote>
-<p><em>Reflexión: ¿Cuánto le queda realmente a Juan para construir su futuro?</em></p>
-</blockquote>
+    <div class="toc-container">
+      <h1>Tabla de Contenidos</h1>
+      <ul class="toc-list">
+        <li class="toc-item-1"><a href="#modulo-1">MODULO 1</a></li>
+        <li class="toc-item-1">
+          <a href="#tema-111-activos-y-pasivos-reales-el-inventario"
+            >TEMA 1.1.1. ACTIVOS Y PASIVOS REALES (EL INVENTARIO)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#por-qu-importa-este-concepto"
+            >¿Por qué importa este concepto?</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#conexin-con-conocimientos-previos"
+            >Conexión con conocimientos previos</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#el-test-del-bolsillo-la-brjula"
+            >El Test del Bolsillo (La Brújula)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#el-ejercicio-la-foto-panormica"
+            >El Ejercicio: La Foto Panorámica</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#errores-frecuentes">Errores frecuentes</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#resumen-del-concepto">Resumen del concepto</a>
+        </li>
+        <li class="toc-item-1">
+          <a href="#ejercicios-tema-111-inventario-patrimonial"
+            >EJERCICIOS: TEMA 1.1.1 (INVENTARIO PATRIMONIAL)</a
+          >
+        </li>
+        <li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li>
+        <li class="toc-item-2">
+          <a href="#1-drill-de-identificacin-activo-o-pasivo"
+            >1. DRILL DE IDENTIFICACIÓN: ¿ACTIVO O PASIVO?</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#2-caso-de-estudio-las-finanzas-de-ana"
+            >2. CASO DE ESTUDIO: LAS FINANZAS DE ANA</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#3-tu-turno-la-hoja-en-blanco"
+            >3. TU TURNO: LA HOJA EN BLANCO</a
+          >
+        </li>
+        <li class="toc-item-1">
+          <a href="#evaluacin-tema-111">EVALUACIÓN: TEMA 1.1.1</a>
+        </li>
+        <li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li>
+        <li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li>
+        <li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li>
+        <li class="toc-item-1">
+          <a href="#tema-121-flujo-de-caja-ingresos-vs-gastos"
+            >TEMA 1.2.1. FLUJO DE CAJA (INGRESOS VS GASTOS)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#por-qu-importa-este-concepto"
+            >¿Por qué importa este concepto?</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#conexin-con-conocimientos-previos"
+            >Conexión con conocimientos previos</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#1-ingresos-lo-que-realmente-entra"
+            >1. Ingresos: Lo que REALMENTE entra</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#2-gastos-la-taxonoma-del-desastre"
+            >2. Gastos: La Taxonomía del Desastre</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#el-ejercicio-el-rastreo-de-30-das"
+            >El Ejercicio: El Rastreo de 30 Días</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#errores-frecuentes">Errores frecuentes</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#resumen-del-concepto">Resumen del concepto</a>
+        </li>
+        <li class="toc-item-1">
+          <a href="#ejercicios-tema-121-flujo-de-caja"
+            >EJERCICIOS: TEMA 1.2.1 (FLUJO DE CAJA)</a
+          >
+        </li>
+        <li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li>
+        <li class="toc-item-2">
+          <a href="#1-drill-detective-de-gastos"
+            >1. DRILL: DETECTIVE DE GASTOS</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#2-el-reto-de-los-30-das-tracking"
+            >2. EL RETO DE LOS 30 DÍAS (TRACKING)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#3-clculo-de-disponibilidad-real"
+            >3. CÁLCULO DE DISPONIBILIDAD REAL</a
+          >
+        </li>
+        <li class="toc-item-1">
+          <a href="#evaluacin-tema-121-flujo-de-caja"
+            >EVALUACIÓN: TEMA 1.2.1 (FLUJO DE CAJA)</a
+          >
+        </li>
+        <li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li>
+        <li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li>
+        <li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li>
+        <li class="toc-item-1"><a href="#modulo-2">MODULO 2</a></li>
+        <li class="toc-item-1">
+          <a href="#tema-211-la-regla-503020-tu-sistema-operativo"
+            >TEMA 2.1.1. LA REGLA 50/30/20 (TU SISTEMA OPERATIVO)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#por-qu-importa-este-concepto"
+            >¿Por qué importa este concepto?</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#la-trada-del-control">La Tríada del Control</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#cmo-implementarlo-el-algoritmo"
+            >Cómo implementarlo (El Algoritmo)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#qu-hacer-si-no-cuadra">Qué hacer si no cuadra</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#resumen-del-concepto">Resumen del concepto</a>
+        </li>
+        <li class="toc-item-1">
+          <a href="#ejercicios-tema-211-la-regla-503020"
+            >EJERCICIOS: TEMA 2.1.1 (LA REGLA 50/30/20)</a
+          >
+        </li>
+        <li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li>
+        <li class="toc-item-2">
+          <a href="#1-drill-de-categorizacin-el-tringulo"
+            >1. DRILL DE CATEGORIZACIÓN: EL TRIÁNGULO</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#2-caso-de-estudio-el-presupuesto-de-carlos"
+            >2. CASO DE ESTUDIO: EL PRESUPUESTO DE CARLOS</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#3-tu-plantilla-maestra">3. TU PLANTILLA MAESTRA</a>
+        </li>
+        <li class="toc-item-1">
+          <a href="#evaluacin-tema-211-regla-503020"
+            >EVALUACIÓN: TEMA 2.1.1 (REGLA 50/30/20)</a
+          >
+        </li>
+        <li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li>
+        <li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li>
+        <li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li>
+        <li class="toc-item-1"><a href="#modulo-3">MODULO 3</a></li>
+        <li class="toc-item-1">
+          <a href="#tema-311-bola-de-nieve-vs-avalancha-estrategias-de-salida"
+            >TEMA 3.1.1. BOLA DE NIEVE vs AVALANCHA (ESTRATEGIAS DE SALIDA)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#por-qu-importa-este-concepto"
+            >¿Por qué importa este concepto?</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#las-dos-grandes-estrategias">Las Dos Grandes Estrategias</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#ejemplo-prctico">Ejemplo Práctico</a>
+        </li>
+        <li class="toc-item-2"><a href="#cul-elegir">¿Cuál elegir?</a></li>
+        <li class="toc-item-2">
+          <a href="#resumen-del-concepto">Resumen del concepto</a>
+        </li>
+        <li class="toc-item-1">
+          <a href="#ejercicios-tema-311-estrategias-de-deuda"
+            >EJERCICIOS: TEMA 3.1.1 (ESTRATEGIAS DE DEUDA)</a
+          >
+        </li>
+        <li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li>
+        <li class="toc-item-2">
+          <a href="#1-simulacin-de-batalla">1. SIMULACIÓN DE BATALLA</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#2-tu-tabla-de-ataque">2. TU TABLA DE ATAQUE</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#3-compromiso-psicolgico">3. COMPROMISO PSICOLÓGICO</a>
+        </li>
+        <li class="toc-item-1">
+          <a href="#evaluacin-tema-311-deuda">EVALUACIÓN: TEMA 3.1.1 (DEUDA)</a>
+        </li>
+        <li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li>
+        <li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li>
+        <li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li>
+        <li class="toc-item-1"><a href="#modulo-4">MODULO 4</a></li>
+        <li class="toc-item-1">
+          <a href="#tema-411-el-fondo-de-emergencia-tu-blindaje"
+            >TEMA 4.1.1. EL FONDO DE EMERGENCIA (TU BLINDAJE)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#por-qu-importa-este-concepto"
+            >¿Por qué importa este concepto?</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#1-el-nmero-mgico-3-a-6-meses"
+            >1. El Número Mágico: 3 a 6 Meses</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#2-dnde-ponerlo-la-regla-de-oro"
+            >2. Dónde ponerlo (La Regla de Oro)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#3-cundo-usarlo-el-semforo"
+            >3. ¿Cuándo usarlo? (El Semáforo)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#estrategia-de-llenado">Estrategia de Llenado</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#resumen-del-concepto">Resumen del concepto</a>
+        </li>
+        <li class="toc-item-1">
+          <a href="#ejercicios-tema-411-fondo-de-emergencia"
+            >EJERCICIOS: TEMA 4.1.1 (FONDO DE EMERGENCIA)</a
+          >
+        </li>
+        <li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li>
+        <li class="toc-item-2">
+          <a href="#1-tu-nmero-de-libertad">1. TU NÚMERO DE LIBERTAD</a>
+        </li>
+        <li class="toc-item-2">
+          <a href="#2-la-venta-del-siglo-meta-1000-ya"
+            >2. LA VENTA DEL SIGLO (META: $1,000 YA)</a
+          >
+        </li>
+        <li class="toc-item-2">
+          <a href="#3-auditora-de-lugares-seguros"
+            >3. AUDITORÍA DE LUGARES SEGUROS</a
+          >
+        </li>
+        <li class="toc-item-1">
+          <a href="#evaluacin-tema-411-fondo-de-emergencia"
+            >EVALUACIÓN: TEMA 4.1.1 (FONDO DE EMERGENCIA)</a
+          >
+        </li>
+        <li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li>
+        <li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li>
+        <li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li>
+      </ul>
+    </div>
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="evaluacin-tema-121-flujo-de-caja" tabindex="-1">EVALUACIÓN: TEMA 1.2.1 (FLUJO DE CAJA)</h1>
-<h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
-<ul>
-<li><strong>Tema</strong>: Ingresos y Gastos (Hormigas y Vampiros)</li>
-<li><strong>Nivel</strong>: Principiante</li>
-</ul>
-<hr>
-<h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
-<h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
-<p>¿Cuál es la diferencia entre el Sueldo Bruto y el Ingreso Disponible?</p>
-<ul>
-<li>[ ] <strong>a)</strong> No hay diferencia.</li>
-<li>[ ] <strong>b)</strong> El Bruto es antes de impuestos; el Disponible es lo que queda en el banco después de obligaciones fijas.</li>
-<li>[ ] <strong>c)</strong> El Disponible incluye los bonos de Navidad.</li>
-</ul>
-<h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
-<p>Un “Gasto Hormiga” se define como:</p>
-<ul>
-<li>[ ] <strong>a)</strong> Un gasto grande anual (seguro del coche).</li>
-<li>[ ] <strong>b)</strong> Un gasto pequeño, frecuente y a menudo innecesario (café diario).</li>
-<li>[ ] <strong>c)</strong> Un gasto de plagas en la casa.</li>
-</ul>
-<h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
-<p>Un “Gasto Vampiro” se caracteriza por:</p>
-<ul>
-<li>[ ] <strong>a)</strong> Ser fijo, automático y a menudo olvidado (suscripciones sin uso).</li>
-<li>[ ] <strong>b)</strong> Ocurrir solo de noche.</li>
-<li>[ ] <strong>c)</strong> Ser deducible de impuestos.</li>
-</ul>
-<h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
-<p>Si ganas $2,000 netos, tienes gastos fijos de $1,500 y gastos hormiga de $300, ¿cuál es tu Flujo de Caja Real para ahorro?</p>
-<ul>
-<li>[ ] <strong>a)</strong> $500</li>
-<li>[ ] <strong>b)</strong> $200</li>
-<li>[ ] <strong>c)</strong> -$100</li>
-</ul>
-<hr>
-<h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
-<ol>
-<li><strong>b)</strong>. El número que importa es el Disponible, no la promesa bruta.</li>
-<li><strong>b)</strong>. El peligro es la frecuencia, no el monto individual.</li>
-<li><strong>a)</strong>. Drenan el presupuesto silenciosamente cada mes.</li>
-<li><strong>b)</strong>. ($2,000 - $1,500 - $300 = $200). Esos $300 de hormigas eran la mayor parte de tu capacidad de ahorro.</li>
-</ol>
+    <!-- Hook para iniciar Paged.js -->
+    <!-- Hook para iniciar Paged.js -->
+    <script>
+      window.startPDFGeneration = async function () {
+        try {
+          console.log("🚀 Iniciando renderizado gráfico...");
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="module-section">
-                    <h1 id="modulo-2" class="module-title">MODULO 2</h1>
-                </div>
-<div class="content-block">
-<h1 id="tema-211-la-regla-503020-tu-sistema-operativo" tabindex="-1">TEMA 2.1.1: LA REGLA 50/30/20 (TU SISTEMA OPERATIVO)</h1>
-<p><strong>Tiempo estimado</strong>: 45 minutos
-<strong>Nivel</strong>: Intermedio
-<strong>Prerrequisitos</strong>: Módulo 1 (Diagnóstico)</p>
-<h2 id="por-qu-importa-este-concepto" tabindex="-1">¿Por qué importa este concepto?</h2>
-<p>Ya sabes cuánto tienes (Patrimonio) y cuánto te queda (Flujo).
-Ahora necesitas un sistema para decirle a tu dinero a dónde ir.
-La mayoría falla haciendo presupuestos detallados (“$4.20 para zanahorias”). Eso aburre y se abandona.
-La <strong>Regla 50/30/20</strong> funciona porque es simple. Divide y vencerás.</p>
-<hr>
-<h2 id="la-trada-del-control" tabindex="-1">La Tríada del Control</h2>
-<p>Imagina que tu Ingreso Neto Disponible (el real, ¡no el bruto!) es un pastel. Lo vamos a partir en solo tres pedazos.</p>
-<h3 id="1-el-50-necesidades-sobrevivencia" tabindex="-1">1. El 50%: NECESIDADES (Sobrevivencia)</h3>
-<p>Aquí va lo que necesitas para no morir ni ir a la cárcel.</p>
-<ul>
-<li>Alquiler / Hipoteca.</li>
-<li>Servicios básicos (Luz, agua, gas).</li>
-<li>Comida de supermercado (no Delivery).</li>
-<li>Transporte (Gasolina o bus para ir al trabajo).</li>
-<li>Seguros obligatorios.</li>
-</ul>
-<p><strong>La Regla</strong>: Si tus necesidades suman más del 50%, tu vida es “cara” para tu sueldo actual. Estás en zona de riesgo.</p>
-<h3 id="2-el-30-deseos-vivir" tabindex="-1">2. El 30%: DESEOS (Vivir)</h3>
-<p>Aquí va lo que hace que la vida valga la pena.</p>
-<ul>
-<li>Salidas a cenar.</li>
-<li>Netflix, Spotify.</li>
-<li>Ropa nueva (no esencial).</li>
-<li>Vacaciones.</li>
-<li>Ese café diario.</li>
-</ul>
-<p><strong>La Clave</strong>: No tienes que eliminar los deseos. Solo tienes que <em>limitarlos</em> al 30%. Si gastas $300 en salidas y solo tienes $100 asignados, algo debe cortarse de otro lado.</p>
-<h3 id="3-el-20-el-futuro-libertad" tabindex="-1">3. El 20%: EL FUTURO (Libertad)</h3>
-<p>Este dinero NO se toca hoy. Es para tu “Yo del Futuro”.</p>
-<ul>
-<li>Pago de deudas (extra al mínimo).</li>
-<li>Fondo de Emergencia.</li>
-<li>Inversiones.</li>
-</ul>
-<p><strong>El Secreto</strong>: Págate a ti primero. Apenas recibas el sueldo, separa este 20%.</p>
-<hr>
-<h2 id="cmo-implementarlo-el-algoritmo" tabindex="-1">Cómo implementarlo (El Algoritmo)</h2>
-<ol>
-<li><strong>Recibe el Sueldo</strong>: Digamos $2,000.</li>
-<li><strong>Aparta el 20%</strong>: Manda $400 a una cuenta separada (Ahorro/Inversión) o paga deuda inmediatamente.</li>
-<li><strong>Calcula tus Fijos</strong>: Si tu alquiler + servicios son $1,200, ¡Ups! Estás en el 60%. Tienes que reducir deseos al 20% para compensar.</li>
-<li><strong>Gasta el Resto</strong>: Lo que sobra es para vivir el mes.</li>
-</ol>
-<hr>
-<h2 id="qu-hacer-si-no-cuadra" tabindex="-1">Qué hacer si no cuadra</h2>
-<h3 id="escenario-a-mis-necesidades-son-el-90" tabindex="-1">Escenario A: “Mis necesidades son el 90%”</h3>
-<ul>
-<li><strong>Diagnóstico</strong>: Estás viviendo por encima de tus posibilidades o ganando muy poco.</li>
-<li><strong>Solución Drástica</strong>: Mudar a una casa más barata, vender el coche caro, o conseguir un segundo ingreso urgente. Ningún presupuesto arregla un problema de ingresos graves.</li>
-</ul>
-<h3 id="escenario-b-gasto-50-en-deseos" tabindex="-1">Escenario B: “Gasto 50% en Deseos”</h3>
-<ul>
-<li><strong>Diagnóstico</strong>: Estilo de vida inflado.</li>
-<li><strong>Solución</strong>: Disciplina. Cancela suscripciones, cocina en casa. Es doloroso pero necesario.</li>
-</ul>
-<hr>
-<h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
-<p><strong>En una frase</strong>: No presupuestes cada centavo; presupuesta porcentajes.</p>
-<p><strong>Regla de Oro</strong>: Si logras vivir con el 80% de lo que ganas (50+30) y guardas el 20%, el éxito financiero es matemático e inevitable.</p>
-<p><strong>Siguiente paso</strong>: Ahora que tenemos la teoría, vamos a aplicarlo a tu realidad con ejercicios prácticos.</p>
+          // 1. Renderizar Mermaid explícitamente
+          await mermaid.run({
+            nodes: document.querySelectorAll(".mermaid"),
+          });
+          console.log("✅ Mermaid completado.");
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="ejercicios-tema-211-la-regla-503020" tabindex="-1">EJERCICIOS: TEMA 2.1.1 (LA REGLA 50/30/20)</h1>
-<h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
-<ol>
-<li>Clasificar correctamente los gastos (Necesidad vs Deseo).</li>
-<li>Auditar un presupuesto roto.</li>
-<li>Crear tu propia asignación porcentual inicial.</li>
-</ol>
-<hr>
-<h2 id="1-drill-de-categorizacin-el-tringulo" tabindex="-1">1. DRILL DE CATEGORIZACIÓN: EL TRIÁNGULO</h2>
-<p><strong>Instrucción</strong>: Marca con una X dónde cae cada gasto.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Gasto</th>
-<th style="text-align:center">50% Necesidad</th>
-<th style="text-align:center">30% Deseo</th>
-<th style="text-align:center">20% Futuro</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Mercado (Comida básica)</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-</tr>
-<tr>
-<td style="text-align:left">Cena en restaurante</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-</tr>
-<tr>
-<td style="text-align:left">Gasolina para ir al trabajo</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-</tr>
-<tr>
-<td style="text-align:left">Uber para salir de fiesta</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-</tr>
-<tr>
-<td style="text-align:left">Pago mínimo de Tarjeta</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[X] (Ojo: Deuda)</td>
-</tr>
-<tr>
-<td style="text-align:left">Ahorro para Fondo Emergencia</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-</tr>
-<tr>
-<td style="text-align:left">Internet de la casa (Trabajo/Estudio)</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-</tr>
-<tr>
-<td style="text-align:left">Entradas para el Cine</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-<td style="text-align:center">[ ]</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="2-caso-de-estudio-el-presupuesto-de-carlos" tabindex="-1">2. CASO DE ESTUDIO: EL PRESUPUESTO DE CARLOS</h2>
-<p>Carlos gana $1,000 netos. Así gasta su dinero:</p>
-<ul>
-<li>Alquiler: $600</li>
-<li>Comida: $200</li>
-<li>Salidas: $200</li>
-<li>Ahorro: $0</li>
-</ul>
-<p><strong>Diagnóstico:</strong></p>
-<ol>
-<li><strong>Necesidades (Alquiler + Comida)</strong>: $800 -&gt; ____% (Meta: 50%)</li>
-<li><strong>Deseos (Salidas)</strong>: $200 -&gt; ____% (Meta: 30%)</li>
-<li><strong>Futuro</strong>: $0 -&gt; ____% (Meta: 20%)</li>
-</ol>
-<p><strong>Pregunta</strong>: ¿Carlos está en problemas? ¿Qué le aconsejarías recortar primero para acercarse al 50/30/20?</p>
-<hr>
-<h2 id="3-tu-plantilla-maestra" tabindex="-1">3. TU PLANTILLA MAESTRA</h2>
-<p>Usa tus números del Módulo 1 (Ingreso Neto Disponible).</p>
-<ul>
-<li><strong>TU INGRESO NETO</strong>: $___________</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Categoría</th>
-<th style="text-align:left">Tu Meta Ideal ($)</th>
-<th style="text-align:left">Tu Realidad Actual (Aprox)</th>
-<th style="text-align:left">Diferencia (Action Plan)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><strong>50% Necesidades</strong></td>
-<td style="text-align:left">$_______</td>
-<td style="text-align:left">$_______</td>
-<td style="text-align:left"><em>Ej: Mudarse? Cocinar más?</em></td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>30% Deseos</strong></td>
-<td style="text-align:left">$_______</td>
-<td style="text-align:left">$_______</td>
-<td style="text-align:left"><em>Ej: Cancelar Netflix? Menos salidas?</em></td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>20% Futuro</strong></td>
-<td style="text-align:left">$_______</td>
-<td style="text-align:left">$_______</td>
-<td style="text-align:left"><em>Ej: Configurar transferencia auto.</em></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><em>Nota: Si tus necesidades son el 70%, no te rindas. Tu meta inicial puede ser 70/20/10. Lo importante es la dirección.</em></p>
-</blockquote>
+          // Pequeña pausa para asegurar DOM estable
+          await new Promise((r) => setTimeout(r, 100));
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="evaluacin-tema-211-regla-503020" tabindex="-1">EVALUACIÓN: TEMA 2.1.1 (REGLA 50/30/20)</h1>
-<h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
-<ul>
-<li><strong>Tema</strong>: Presupuesto Simplificado</li>
-<li><strong>Nivel</strong>: Intermedio</li>
-</ul>
-<hr>
-<h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
-<h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
-<p>En la regla 50/30/20, ¿qué categoría abarca el 50% de tus ingresos netos?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Ahorros e Inversiones.</li>
-<li>[ ] <strong>b)</strong> Necesidades (Vivienda, Comida, Servicios, Transporte).</li>
-<li>[ ] <strong>c)</strong> Deseos y Entretenimiento.</li>
-</ul>
-<h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
-<p>Si tu alquiler consume el 60% de tus ingresos, ¿cuál es la consecuencia matemática inmediata según la regla?</p>
-<ul>
-<li>[ ] <strong>a)</strong> No pasa nada, puedes tomar prestado del 50%.</li>
-<li>[ ] <strong>b)</strong> Tienes que reducir tus Deseos (del 30% al 20%) o tu Ahorro para compensar.</li>
-<li>[ ] <strong>c)</strong> Debes buscar un alquiler más caro.</li>
-</ul>
-<h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
-<p>La categoría “Deseos” (30%) incluye:</p>
-<ul>
-<li>[ ] <strong>a)</strong> Medicamentos y Seguros.</li>
-<li>[ ] <strong>b)</strong> Pago de deudas atrasadas.</li>
-<li>[ ] <strong>c)</strong> Salidas a comer, Netflix, Ropa de moda y Hobbies.</li>
-</ul>
-<h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
-<p>El 20% destinado al “Futuro” debe usarse para:</p>
-<ul>
-<li>[ ] <strong>a)</strong> Comprar el último iPhone.</li>
-<li>[ ] <strong>b)</strong> Fondo de Emergencia, Inversiones y pago acelerado de deudas.</li>
-<li>[ ] <strong>c)</strong> Pagar la tarjeta de crédito por los gastos del mes corriente.</li>
-</ul>
-<hr>
-<h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
-<ol>
-<li><strong>b)</strong>. Son los gastos de supervivencia no negociables.</li>
-<li><strong>b)</strong>. La matemática es implacable; si un balde se desborda, sale de los otros.</li>
-<li><strong>c)</strong>. Todo lo que no es esencial para sobrevivir física o legalmente.</li>
-<li><strong>b)</strong>. Es dinero que compra libertad futura, no placer presente.</li>
-</ol>
+          // 2. Iniciar Paged.js
+          console.log("📖 Iniciando Paged.js...");
+          await window.PagedPolyfill.preview();
 
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="module-section">
-                    <h1 id="modulo-3" class="module-title">MODULO 3</h1>
-                </div>
-<div class="content-block">
-<h1 id="tema-311-bola-de-nieve-vs-avalancha-estrategias-de-salida" tabindex="-1">TEMA 3.1.1: BOLA DE NIEVE vs AVALANCHA (ESTRATEGIAS DE SALIDA)</h1>
-<p><strong>Tiempo estimado</strong>: 60 minutos
-<strong>Nivel</strong>: Intermedio
-<strong>Prerrequisitos</strong>: Módulo 1 (Inventario de Deudas)</p>
-<h2 id="por-qu-importa-este-concepto" tabindex="-1">¿Por qué importa este concepto?</h2>
-<p>Tienes la lista de deudas (del Módulo 1). Ahora necesitas un plan de ataque.
-Pagar “un poquito a cada una” es la peor estrategia: es ineficiente y desmotivante.
-Necesitas enfocar tu “cañón de dinero” (ese 20% del futuro) en un solo objetivo a la vez.</p>
-<hr>
-<h2 id="las-dos-grandes-estrategias" tabindex="-1">Las Dos Grandes Estrategias</h2>
-<p>Ambas requieren que pagues el <strong>mínimo</strong> en todas tus deudas excepto en una (la “Víctima”).</p>
-<h3 id="1-la-bola-de-nieve-el-mtodo-psiclogico" tabindex="-1">1. La Bola de Nieve (El Método Psicólogico)</h3>
-<p>Popularizado por Dave Ramsey.</p>
-<ul>
-<li><strong>Orden</strong>: De la deuda más <strong>PEQUEÑA</strong> a la más grande (ignorando la tasa de interés).</li>
-<li><strong>La Lógica</strong>: Al matar la deuda pequeña rápido, obtienes una victoria inmediata (“¡Sí se puede!”). Liberas ese pago mínimo y lo sumas a la siguiente.</li>
-<li><strong>Ideal para</strong>: Personas que necesitan motivación rápida y ver progreso visual.</li>
-</ul>
-<h3 id="2-la-avalancha-el-mtodo-matemtico" tabindex="-1">2. La Avalancha (El Método Matemático)</h3>
-<p>El favorito de los economistas.</p>
-<ul>
-<li><strong>Orden</strong>: De la tasa de interés más <strong>ALTA</strong> a la más baja.</li>
-<li><strong>La Lógica</strong>: Atacas la deuda más tóxica primero. Matemáticamente pagas menos intereses a largo plazo.</li>
-<li><strong>Ideal para</strong>: Personas disciplinadas, frías y analíticas que no necesitan “palmaditas en la espalda”.</li>
-</ul>
-<hr>
-<h2 id="ejemplo-prctico" tabindex="-1">Ejemplo Práctico</h2>
-<p><strong>Tus Enemigos:</strong></p>
-<ol>
-<li>Tarjeta Visa: $500 (Saldo) - 20% (Interés).</li>
-<li>Préstamo Estudiantil: $5,000 (Saldo) - 5% (Interés).</li>
-<li>Préstamo Personal: $2,000 (Saldo) - 15% (Interés).</li>
-</ol>
-<p><strong>Orden Bola de Nieve (Por Saldo):</strong></p>
-<ol>
-<li>Visa ($500) -&gt; ¡Muere rápido!</li>
-<li>Personal ($2,000).</li>
-<li>Estudiantil ($5,000).</li>
-</ol>
-<p><strong>Orden Avalancha (Por Interés):</strong></p>
-<ol>
-<li>Visa (20%).</li>
-<li>Personal (15%).</li>
-<li>Estudiantil (5%).
-<em>(En este caso coinciden, pero si la deuda de $5,000 tuviera el 30% de interés, la Avalancha la atacaría primero, aunque tardarías años en verla desaparecer).</em></li>
-</ol>
-<hr>
-<h2 id="cul-elegir" tabindex="-1">¿Cuál elegir?</h2>
-<p>La matemática dice Avalancha. La psicología dice Bola de Nieve.
-<strong>Las finanzas personales son 80% comportamiento y 20% matemáticas.</strong>
-Si abandonas el plan a los 3 meses porque no ves resultados, la matemática no sirve de nada.
-Por eso, para el 90% de la gente, recomendamos <strong>Bola de Nieve</strong>.</p>
-<hr>
-<h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
-<p><strong>En una frase</strong>: No trates de matar a todos los dragones a la vez. Mata al pequeño, gana confianza, y usa su fuerza para matar al siguiente.</p>
-<p><strong>Regla de Oro</strong>: Pagar el mínimo te mantiene esclavo. Pagar extra (Bola de Nieve) te hace libre.</p>
-<p><strong>Siguiente paso</strong>: Vamos a simular tu plan de pagos en los ejercicios.</p>
-
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="ejercicios-tema-311-estrategias-de-deuda" tabindex="-1">EJERCICIOS: TEMA 3.1.1 (ESTRATEGIAS DE DEUDA)</h1>
-<h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
-<ol>
-<li>Comparar resultados de Bola de Nieve vs Avalancha.</li>
-<li>Elegir tu estrategia personal.</li>
-<li>Crear tu “Tabla de Ataque”.</li>
-</ol>
-<hr>
-<h2 id="1-simulacin-de-batalla" tabindex="-1">1. SIMULACIÓN DE BATALLA</h2>
-<p><strong>Escenario</strong>: Tienes $200 extra al mes para atacar deudas (después de pagar mínimos).</p>
-<p><strong>Tus Enemigos:</strong></p>
-<ul>
-<li><strong>A (Tarjeta)</strong>: $1,000 saldo (25% interés) - Mínimo $30.</li>
-<li><strong>B (Coche)</strong>: $5,000 saldo (8% interés) - Mínimo $100.</li>
-<li><strong>C (Médica)</strong>: $500 saldo (0% interés - familiar) - Mínimo $50.</li>
-</ul>
-<p><strong>Ejercicio</strong>:</p>
-<ol>
-<li>
-<p><strong>Orden Bola de Nieve</strong> (Menor a Mayor Saldo):</p>
-<ul>
-<li>1ro: ___________</li>
-<li>2do: ___________</li>
-<li>3ro: ___________</li>
-</ul>
-</li>
-<li>
-<p><strong>Orden Avalancha</strong> (Mayor a Menor Interés):</p>
-<ul>
-<li>1ro: ___________</li>
-<li>2do: ___________</li>
-<li>3ro: ___________</li>
-</ul>
-</li>
-</ol>
-<p><em>Pregunta</em>: Si eliges Bola de Nieve, ¿cuál deuda atacarías primero con los $200 extra?</p>
-<hr>
-<h2 id="2-tu-tabla-de-ataque" tabindex="-1">2. TU TABLA DE ATAQUE</h2>
-<p>Llena esta tabla con tus deudas reales.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Nombre Deuda</th>
-<th style="text-align:left">Saldo Total ($)</th>
-<th style="text-align:left">Tasa Interés (%)</th>
-<th style="text-align:left">Pago Mínimo ($)</th>
-<th style="text-align:left">Prioridad (1, 2, 3…)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><strong>Total Pago Mínimo Mensual</strong>: $________</li>
-<li><strong>Tu “Cañón” Extra (Disponibilidad Módulo 1)</strong>: $________</li>
-</ul>
-<hr>
-<h2 id="3-compromiso-psicolgico" tabindex="-1">3. COMPROMISO PSICOLÓGICO</h2>
-<p>A veces la matemática correcta se siente mal.
-Si tienes una deuda pequeña que te molesta emocionalmente (ej: dinero prestado a un amigo), <strong>permítete pagarla primero</strong> aunque no sea “matemáticamente óptimo”.
-La paz mental vale más que un 2% de interés.</p>
-<p><strong>Escribe aquí tu estrategia elegida</strong>:</p>
-<hr>
-
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="evaluacin-tema-311-deuda" tabindex="-1">EVALUACIÓN: TEMA 3.1.1 (DEUDA)</h1>
-<h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
-<ul>
-<li><strong>Tema</strong>: Estrategias de Pago (Bola de Nieve / Avalancha)</li>
-<li><strong>Nivel</strong>: Intermedio</li>
-</ul>
-<hr>
-<h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
-<h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
-<p>¿En qué orden se pagan las deudas en el método <strong>Bola de Nieve</strong>?</p>
-<ul>
-<li>[ ] <strong>a)</strong> De la tasa de interés más alta a la más baja.</li>
-<li>[ ] <strong>b)</strong> De la deuda con saldo más pequeño a la más grande.</li>
-<li>[ ] <strong>c)</strong> Por orden alfabético del banco.</li>
-</ul>
-<h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
-<p>¿Cuál es la principal ventaja del método <strong>Avalancha</strong>?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Es psicológicamente más gratificante al principio.</li>
-<li>[ ] <strong>b)</strong> Es matemáticamente óptimo porque ahorra más intereses a largo plazo.</li>
-<li>[ ] <strong>c)</strong> Es más fácil de calcular.</li>
-</ul>
-<h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
-<p>¿Qué debes hacer con las demás deudas mientras atacas a tu “Víctima” (deuda objetivo)?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Dejar de pagarlas temporalmente.</li>
-<li>[ ] <strong>b)</strong> Pagar solo el Pago Mínimo exigido.</li>
-<li>[ ] <strong>c)</strong> Pagar la mitad del mínimo.</li>
-</ul>
-<h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
-<p>¿Por qué el método Bola de Nieve suele ser más efectivo para la mayoría de las personas, aunque no sea el matemáticamente perfecto?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Porque genera <strong>victorias rápidas</strong> (momentum) que modifican el comportamiento.</li>
-<li>[ ] <strong>b)</strong> Porque los bancos prefieren que pagues así.</li>
-<li>[ ] <strong>c)</strong> Porque elimina las deudas con intereses más altos primero.</li>
-</ul>
-<hr>
-<h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
-<ol>
-<li><strong>b)</strong>. El foco es el saldo, no el interés, para obtener victorias rápidas.</li>
-<li><strong>b)</strong>. Al eliminar tasas altas primero, el costo total del dinero es menor.</li>
-<li><strong>b)</strong>. Nunca dejes de pagar los mínimos o arruinarás tu historial crediticio.</li>
-<li><strong>a)</strong>. Las finanzas personales son 80% comportamiento. Sin motivación, el plan se abandona.</li>
-</ol>
-
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="module-section">
-                    <h1 id="modulo-4" class="module-title">MODULO 4</h1>
-                </div>
-<div class="content-block">
-<h1 id="tema-411-el-fondo-de-emergencia-tu-blindaje" tabindex="-1">TEMA 4.1.1: EL FONDO DE EMERGENCIA (TU BLINDAJE)</h1>
-<p><strong>Tiempo estimado</strong>: 45 minutos
-<strong>Nivel</strong>: Intermedio
-<strong>Prerrequisitos</strong>: Módulo 2 (Presupuesto)</p>
-<h2 id="por-qu-importa-este-concepto" tabindex="-1">¿Por qué importa este concepto?</h2>
-<p>La vida golpea.
-El coche se rompe. Te quedas sin trabajo. Hay una pandemia.
-Sin un Fondo de Emergencia, cualquier golpe te manda de vuelta a la deuda (tarjeta de crédito).
-Con un Fondo, un desastre se convierte en una simple “molestia administrativa”.
-Es la diferencia entre fragilidad y seguridad.</p>
-<hr>
-<h2 id="1-el-nmero-mgico-3-a-6-meses" tabindex="-1">1. El Número Mágico: 3 a 6 Meses</h2>
-<p>No ahorras para “comprar cosas”. Ahorras para “comprar tranquilidad”.
-Tu Fondo debe cubrir tus <strong>Gastos Fijos Necesarios</strong> (el 50% del Módulo 2), no tu sueldo entero.</p>
-<h3 id="clculo" tabindex="-1">Cálculo</h3>
-<ul>
-<li><strong>Gastos Fijos (Necesidades)</strong>: $1,200/mes.</li>
-<li><strong>Fondo Mínimo (3 meses)</strong>: $3,600.</li>
-<li><strong>Fondo Robusto (6 meses)</strong>: $7,200.</li>
-</ul>
-<p><strong>¿3 o 6?</strong></p>
-<ul>
-<li>Elige <strong>3 meses</strong> si: Eres soltero, tienes empleo estable, alquilas.</li>
-<li>Elige <strong>6 meses</strong> si: Tienes hijos, hipoteca, o ingresos variables (freelance).</li>
-</ul>
-<hr>
-<h2 id="2-dnde-ponerlo-la-regla-de-oro" tabindex="-1">2. Dónde ponerlo (La Regla de Oro)</h2>
-<p>El Fondo de Emergencia tiene dos reglas sagradas:</p>
-<ol>
-<li><strong>Liquidez</strong>: Debes poder sacarlo HOY.</li>
-<li><strong>Seguridad</strong>: No puede bajar de valor.</li>
-</ol>
-<ul>
-<li><strong>SÍ</strong>: Cuenta de Ahorro de Alto Rendimiento (separada de tu cuenta diaria).</li>
-<li><strong>NO</strong>: Debajo del colchón (inflación), Bolsa de Valores (riesgo), Criptomonedas (volatilidad) o Bienes Raíces (no líquido).</li>
-</ul>
-<hr>
-<h2 id="3-cundo-usarlo-el-semforo" tabindex="-1">3. ¿Cuándo usarlo? (El Semáforo)</h2>
-<p>No uses el Fondo para comprar un iPhone nuevo ni para las vacaciones.</p>
-<ul>
-<li>🟢 <strong>Luz Verde (Emergencia)</strong>: Pérdida de empleo, Emergencia médica real, Reparación crítica del hogar/auto.</li>
-<li>🔴 <strong>Luz Roja (Capricho)</strong>: Regalos de Navidad, Ropa en oferta, Viajes.</li>
-</ul>
-<hr>
-<h2 id="estrategia-de-llenado" tabindex="-1">Estrategia de Llenado</h2>
-<p>Si tu Fondo está en $0, da miedo ver la meta de $7,000.
-Rómpelo en hitos:</p>
-<ol>
-<li><strong>Fondo de Principiante</strong>: Ahorra $1,000 lo más rápido posible (vende cosas, horas extra). Esto evita que la próxima llanta pinchada te endeude.</li>
-<li><strong>Fondo Completo</strong>: Una vez pagadas las deudas (Módulo 3), vuelca todo el “cañón de dinero” a llenar los 3-6 meses.</li>
-</ol>
-<hr>
-<h2 id="resumen-del-concepto" tabindex="-1">Resumen del concepto</h2>
-<p><strong>En una frase</strong>: El Fondo de Emergencia convierte crisis financieras en meros inconvenientes.</p>
-<p><strong>Regla de Oro</strong>: No inviertas un solo centavo hasta que tu escudo (Fondo) esté completo. Invertir sin fondo es saltar sin paracaídas.</p>
-<p><strong>Siguiente paso</strong>: Ejercicios para calcular tu número exacto y definir dónde guardarlo.</p>
-
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="ejercicios-tema-411-fondo-de-emergencia" tabindex="-1">EJERCICIOS: TEMA 4.1.1 (FONDO DE EMERGENCIA)</h1>
-<h2 id="objetivos" tabindex="-1">OBJETIVOS</h2>
-<ol>
-<li>Calcular tu Número de Libertad (Monto Total del Fondo).</li>
-<li>Definir una estrategia de llenado rápido para los primeros $1,000.</li>
-<li>Auditar tus “Líneas de Crédito” mentales.</li>
-</ol>
-<hr>
-<h2 id="1-tu-nmero-de-libertad" tabindex="-1">1. TU NÚMERO DE LIBERTAD</h2>
-<p>Usa los datos de tus “Gastos Fijos Necesarios” del Módulo 2.</p>
-<ul>
-<li>
-<p><strong>A. Gastos Fijos Mensuales (Supervivencia)</strong>: $_________
-<em>(Alquiler, comida, luz, transporte min)</em></p>
-</li>
-<li>
-<p><strong>B. Meses de Cobertura Deseados</strong>:</p>
-<ul>
-<li>[ ] 3 Meses (Soltero, estable)</li>
-<li>[ ] 6 Meses (Familia, variable)</li>
-</ul>
-</li>
-<li>
-<p><strong>C. TU OBJETIVO FINAL (A x B)</strong>: $_________</p>
-</li>
-</ul>
-<hr>
-<h2 id="2-la-venta-del-siglo-meta-1000-ya" tabindex="-1">2. LA VENTA DEL SIGLO (META: $1,000 YA)</h2>
-<p>Si no tienes ni $1,000 ahorrados, estás en emergencia HOY.
-Tienes 72 horas para encontrar dinero.</p>
-<p><strong>Busca en tu casa:</strong></p>
-<ol>
-<li>Ropa que no usas.</li>
-<li>Electrónicos viejos.</li>
-<li>Muebles sobrantes.</li>
-</ol>
-<p><strong>Lista de Objetos a Vender:</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Objeto</th>
-<th style="text-align:left">Valor Estimado</th>
-<th style="text-align:left">Plataforma (Marketplace/Ebay)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>TOTAL</strong>: $_______</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="3-auditora-de-lugares-seguros" tabindex="-1">3. AUDITORÍA DE LUGARES SEGUROS</h2>
-<p>¿Dónde vas a poner este dinero?
-Investiga 2 opciones de “Cuenta de Ahorro de Alto Rendimiento” en tu país.
-Deben tener:</p>
-<ol>
-<li>Sin costo de mantenimiento.</li>
-<li>Disponibilidad inmediata.</li>
-<li>Tasa de interés decente.</li>
-</ol>
-<ul>
-<li><strong>Opción A</strong>: _____________________</li>
-<li><strong>Opción B</strong>: _____________________</li>
-<li><strong>Ganador</strong>: _____________________</li>
-</ul>
-
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-<div class="content-block">
-<h1 id="evaluacin-tema-411-fondo-de-emergencia" tabindex="-1">EVALUACIÓN: TEMA 4.1.1 (FONDO DE EMERGENCIA)</h1>
-<h2 id="ficha-tcnica" tabindex="-1">FICHA TÉCNICA</h2>
-<ul>
-<li><strong>Tema</strong>: Blindaje Financiero</li>
-<li><strong>Nivel</strong>: Intermedio</li>
-</ul>
-<hr>
-<h2 id="cuestionario" tabindex="-1">CUESTIONARIO</h2>
-<h3 id="pregunta-1" tabindex="-1">Pregunta 1</h3>
-<p>El tamaño recomendado para un Fondo de Emergencia básico es:</p>
-<ul>
-<li>[ ] <strong>a)</strong> $100 dólares.</li>
-<li>[ ] <strong>b)</strong> 3 a 6 meses de tus <strong>Gastos Fijos Necesarios</strong>.</li>
-<li>[ ] <strong>c)</strong> 1 año de tu Sueldo Bruto.</li>
-</ul>
-<h3 id="pregunta-2" tabindex="-1">Pregunta 2</h3>
-<p>¿Dónde debe guardarse el Fondo de Emergencia?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Debajo del colchón (Efectivo en casa).</li>
-<li>[ ] <strong>b)</strong> En acciones de la bolsa o criptomonedas (para que crezca rápido).</li>
-<li>[ ] <strong>c)</strong> En una Cuenta de Ahorro de alto rendimiento, líquida y separada de la cuenta de gastos diarios.</li>
-</ul>
-<h3 id="pregunta-3" tabindex="-1">Pregunta 3</h3>
-<p>¿Cuál de las siguientes situaciones <strong>JUSTIFICA</strong> usar el Fondo de Emergencia?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Tu banda favorita viene a la ciudad y las entradas están caras.</li>
-<li>[ ] <strong>b)</strong> Se rompió la transmisión de tu coche y lo necesitas para ir a trabajar.</li>
-<li>[ ] <strong>c)</strong> Hay una oferta de “2x1” en televisores.</li>
-</ul>
-<h3 id="pregunta-4" tabindex="-1">Pregunta 4</h3>
-<p>¿Por qué NO se recomienda invertir el Fondo de Emergencia en la Bolsa?</p>
-<ul>
-<li>[ ] <strong>a)</strong> Porque la Bolsa es solo para ricos.</li>
-<li>[ ] <strong>b)</strong> Porque necesitas <strong>Liquidez</strong> y <strong>Seguridad</strong> (que el dinero esté ahí cuando lo necesites, sin riesgo de que haya bajado de valor).</li>
-<li>[ ] <strong>c)</strong> Porque los bancos no lo permiten.</li>
-</ul>
-<hr>
-<h2 id="solucionario" tabindex="-1">SOLUCIONARIO</h2>
-<ol>
-<li><strong>b)</strong>. Cubrir la supervivencia es la prioridad.</li>
-<li><strong>c)</strong>. Busca el equilibrio entre acceso inmediato y protección contra la inflación (interés), sin riesgo de pérdida.</li>
-<li><strong>b)</strong>. Es urgente, inesperado y necesario.</li>
-<li><strong>b)</strong>. El propósito del fondo es seguridad (seguro), no crecimiento (inversión).</li>
-</ol>
-
-</div>
-<div style="page-break-after: always; break-after: page;"></div>
-
-        </main>
-
-        <section class="solucionario-section">
-            
-        </section>
-
-        <div class="page-break"></div>
-
-        <div class="toc-container">
-            <h1>Tabla de Contenidos</h1>
-            <ul class="toc-list"><li class="toc-item-1"><a href="#modulo-1">MODULO 1</a></li><li class="toc-item-1"><a href="#tema-111-activos-y-pasivos-reales-el-inventario">TEMA 1.1.1: ACTIVOS Y PASIVOS REALES (EL INVENTARIO)</a></li><li class="toc-item-2"><a href="#por-qu-importa-este-concepto">¿Por qué importa este concepto?</a></li><li class="toc-item-2"><a href="#conexin-con-conocimientos-previos">Conexión con conocimientos previos</a></li><li class="toc-item-2"><a href="#el-test-del-bolsillo-la-brjula">El Test del Bolsillo (La Brújula)</a></li><li class="toc-item-2"><a href="#el-ejercicio-la-foto-panormica">El Ejercicio: La Foto Panorámica</a></li><li class="toc-item-2"><a href="#errores-frecuentes">Errores frecuentes</a></li><li class="toc-item-2"><a href="#resumen-del-concepto">Resumen del concepto</a></li><li class="toc-item-1"><a href="#ejercicios-tema-111-inventario-patrimonial">EJERCICIOS: TEMA 1.1.1 (INVENTARIO PATRIMONIAL)</a></li><li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li><li class="toc-item-2"><a href="#1-drill-de-identificacin-activo-o-pasivo">1. DRILL DE IDENTIFICACIÓN: ¿ACTIVO O PASIVO?</a></li><li class="toc-item-2"><a href="#2-caso-de-estudio-las-finanzas-de-ana">2. CASO DE ESTUDIO: LAS FINANZAS DE ANA</a></li><li class="toc-item-2"><a href="#3-tu-turno-la-hoja-en-blanco">3. TU TURNO: LA HOJA EN BLANCO</a></li><li class="toc-item-1"><a href="#evaluacin-tema-111">EVALUACIÓN: TEMA 1.1.1</a></li><li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li><li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li><li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li><li class="toc-item-1"><a href="#tema-121-flujo-de-caja-ingresos-vs-gastos">TEMA 1.2.1: FLUJO DE CAJA (INGRESOS VS GASTOS)</a></li><li class="toc-item-2"><a href="#por-qu-importa-este-concepto">¿Por qué importa este concepto?</a></li><li class="toc-item-2"><a href="#conexin-con-conocimientos-previos">Conexión con conocimientos previos</a></li><li class="toc-item-2"><a href="#1-ingresos-lo-que-realmente-entra">1. Ingresos: Lo que REALMENTE entra</a></li><li class="toc-item-2"><a href="#2-gastos-la-taxonoma-del-desastre">2. Gastos: La Taxonomía del Desastre</a></li><li class="toc-item-2"><a href="#el-ejercicio-el-rastreo-de-30-das">El Ejercicio: El Rastreo de 30 Días</a></li><li class="toc-item-2"><a href="#errores-frecuentes">Errores frecuentes</a></li><li class="toc-item-2"><a href="#resumen-del-concepto">Resumen del concepto</a></li><li class="toc-item-1"><a href="#ejercicios-tema-121-flujo-de-caja">EJERCICIOS: TEMA 1.2.1 (FLUJO DE CAJA)</a></li><li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li><li class="toc-item-2"><a href="#1-drill-detective-de-gastos">1. DRILL: DETECTIVE DE GASTOS</a></li><li class="toc-item-2"><a href="#2-el-reto-de-los-30-das-tracking">2. EL RETO DE LOS 30 DÍAS (TRACKING)</a></li><li class="toc-item-2"><a href="#3-clculo-de-disponibilidad-real">3. CÁLCULO DE DISPONIBILIDAD REAL</a></li><li class="toc-item-1"><a href="#evaluacin-tema-121-flujo-de-caja">EVALUACIÓN: TEMA 1.2.1 (FLUJO DE CAJA)</a></li><li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li><li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li><li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li><li class="toc-item-1"><a href="#modulo-2">MODULO 2</a></li><li class="toc-item-1"><a href="#tema-211-la-regla-503020-tu-sistema-operativo">TEMA 2.1.1: LA REGLA 50/30/20 (TU SISTEMA OPERATIVO)</a></li><li class="toc-item-2"><a href="#por-qu-importa-este-concepto">¿Por qué importa este concepto?</a></li><li class="toc-item-2"><a href="#la-trada-del-control">La Tríada del Control</a></li><li class="toc-item-2"><a href="#cmo-implementarlo-el-algoritmo">Cómo implementarlo (El Algoritmo)</a></li><li class="toc-item-2"><a href="#qu-hacer-si-no-cuadra">Qué hacer si no cuadra</a></li><li class="toc-item-2"><a href="#resumen-del-concepto">Resumen del concepto</a></li><li class="toc-item-1"><a href="#ejercicios-tema-211-la-regla-503020">EJERCICIOS: TEMA 2.1.1 (LA REGLA 50/30/20)</a></li><li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li><li class="toc-item-2"><a href="#1-drill-de-categorizacin-el-tringulo">1. DRILL DE CATEGORIZACIÓN: EL TRIÁNGULO</a></li><li class="toc-item-2"><a href="#2-caso-de-estudio-el-presupuesto-de-carlos">2. CASO DE ESTUDIO: EL PRESUPUESTO DE CARLOS</a></li><li class="toc-item-2"><a href="#3-tu-plantilla-maestra">3. TU PLANTILLA MAESTRA</a></li><li class="toc-item-1"><a href="#evaluacin-tema-211-regla-503020">EVALUACIÓN: TEMA 2.1.1 (REGLA 50/30/20)</a></li><li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li><li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li><li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li><li class="toc-item-1"><a href="#modulo-3">MODULO 3</a></li><li class="toc-item-1"><a href="#tema-311-bola-de-nieve-vs-avalancha-estrategias-de-salida">TEMA 3.1.1: BOLA DE NIEVE vs AVALANCHA (ESTRATEGIAS DE SALIDA)</a></li><li class="toc-item-2"><a href="#por-qu-importa-este-concepto">¿Por qué importa este concepto?</a></li><li class="toc-item-2"><a href="#las-dos-grandes-estrategias">Las Dos Grandes Estrategias</a></li><li class="toc-item-2"><a href="#ejemplo-prctico">Ejemplo Práctico</a></li><li class="toc-item-2"><a href="#cul-elegir">¿Cuál elegir?</a></li><li class="toc-item-2"><a href="#resumen-del-concepto">Resumen del concepto</a></li><li class="toc-item-1"><a href="#ejercicios-tema-311-estrategias-de-deuda">EJERCICIOS: TEMA 3.1.1 (ESTRATEGIAS DE DEUDA)</a></li><li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li><li class="toc-item-2"><a href="#1-simulacin-de-batalla">1. SIMULACIÓN DE BATALLA</a></li><li class="toc-item-2"><a href="#2-tu-tabla-de-ataque">2. TU TABLA DE ATAQUE</a></li><li class="toc-item-2"><a href="#3-compromiso-psicolgico">3. COMPROMISO PSICOLÓGICO</a></li><li class="toc-item-1"><a href="#evaluacin-tema-311-deuda">EVALUACIÓN: TEMA 3.1.1 (DEUDA)</a></li><li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li><li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li><li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li><li class="toc-item-1"><a href="#modulo-4">MODULO 4</a></li><li class="toc-item-1"><a href="#tema-411-el-fondo-de-emergencia-tu-blindaje">TEMA 4.1.1: EL FONDO DE EMERGENCIA (TU BLINDAJE)</a></li><li class="toc-item-2"><a href="#por-qu-importa-este-concepto">¿Por qué importa este concepto?</a></li><li class="toc-item-2"><a href="#1-el-nmero-mgico-3-a-6-meses">1. El Número Mágico: 3 a 6 Meses</a></li><li class="toc-item-2"><a href="#2-dnde-ponerlo-la-regla-de-oro">2. Dónde ponerlo (La Regla de Oro)</a></li><li class="toc-item-2"><a href="#3-cundo-usarlo-el-semforo">3. ¿Cuándo usarlo? (El Semáforo)</a></li><li class="toc-item-2"><a href="#estrategia-de-llenado">Estrategia de Llenado</a></li><li class="toc-item-2"><a href="#resumen-del-concepto">Resumen del concepto</a></li><li class="toc-item-1"><a href="#ejercicios-tema-411-fondo-de-emergencia">EJERCICIOS: TEMA 4.1.1 (FONDO DE EMERGENCIA)</a></li><li class="toc-item-2"><a href="#objetivos">OBJETIVOS</a></li><li class="toc-item-2"><a href="#1-tu-nmero-de-libertad">1. TU NÚMERO DE LIBERTAD</a></li><li class="toc-item-2"><a href="#2-la-venta-del-siglo-meta-1000-ya">2. LA VENTA DEL SIGLO (META: $1,000 YA)</a></li><li class="toc-item-2"><a href="#3-auditora-de-lugares-seguros">3. AUDITORÍA DE LUGARES SEGUROS</a></li><li class="toc-item-1"><a href="#evaluacin-tema-411-fondo-de-emergencia">EVALUACIÓN: TEMA 4.1.1 (FONDO DE EMERGENCIA)</a></li><li class="toc-item-2"><a href="#ficha-tcnica">FICHA TÉCNICA</a></li><li class="toc-item-2"><a href="#cuestionario">CUESTIONARIO</a></li><li class="toc-item-2"><a href="#solucionario">SOLUCIONARIO</a></li></ul>
-        </div>
-
-        <!-- Hook para iniciar Paged.js -->
-        <!-- Hook para iniciar Paged.js -->
-        <script>
-            window.startPDFGeneration = async function() {
-                try {
-                    console.log("🚀 Iniciando renderizado gráfico...");
-                    
-                    // 1. Renderizar Mermaid explícitamente
-                    await mermaid.run({
-                        nodes: document.querySelectorAll('.mermaid')
-                    });
-                    console.log("✅ Mermaid completado.");
-
-                    // Pequeña pausa para asegurar DOM estable
-                    await new Promise(r => setTimeout(r, 100));
-
-                    // 2. Iniciar Paged.js
-                    console.log("📖 Iniciando Paged.js...");
-                    await window.PagedPolyfill.preview();
-                    
-                    window.renderingComplete = true; // Signal for Puppeteer
-                    console.log("✅ Paged.js completado.");
-                } catch(e) {
-                    console.error("Render Error", e);
-                    window.renderingComplete = true; // Signal anyway
-                }
-            };
-        </script>
-    </body>
-    </html>
-    
+          window.renderingComplete = true; // Signal for Puppeteer
+          console.log("✅ Paged.js completado.");
+        } catch (e) {
+          console.error("Render Error", e);
+          window.renderingComplete = true; // Signal anyway
+        }
+      };
+    </script>
+  </body>
+</html>

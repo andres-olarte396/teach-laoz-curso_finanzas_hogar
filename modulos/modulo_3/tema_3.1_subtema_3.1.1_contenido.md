@@ -1,4 +1,4 @@
-# TEMA 3.1.1: BOLA DE NIEVE vs AVALANCHA (ESTRATEGIAS DE SALIDA)
+# TEMA 3.1.1. BOLA DE NIEVE vs AVALANCHA (ESTRATEGIAS DE SALIDA)
 
 **Tiempo estimado**: 60 minutos
 **Nivel**: Intermedio
